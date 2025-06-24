@@ -56,9 +56,9 @@ const DeputyRegistrarSidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) =
       path: "#", 
       hasDropdown: true,
       dropdownItems: [
-        { name: "Schools", path: "/deputy_registrar/schools" },
-        { name: "Programs", path: "/deputy_registrar/programmes" },
-        { name: "Subject", path: "/deputy_registrar/subjects" },
+        { name: "Add school", path: "/deputy_registrar/schools" },
+        { name: "Add program", path: "/deputy_registrar/programmes" },
+        { name: "Add subject", path: "/deputy_registrar/subjects" },
         { name: "Subject With Schemes", path: "/deputy_registrar/scheme/subjects" },
       ]
     },

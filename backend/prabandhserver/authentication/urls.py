@@ -1,0 +1,18 @@
+from django.urls import path,include
+from .views import RegisterView, LoginView, LogoutView, UserView, CheckAuthView, CSRFTokenView, UsersByEmptypeView, EmptypesView, unique_departments, faculty_by_department
+from rest_framework_simplejwt.views import TokenRefreshView
+
+urlpatterns = [
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('user/', UserView.as_view(), name='user'),
+    path('check-auth/', CheckAuthView.as_view(), name='check-auth'),
+    path('csrf/', CSRFTokenView.as_view(), name='csrf'),
+    path('users/', UsersByEmptypeView.as_view(), name='users-by-emptype'),
+    path('emptypes/', EmptypesView.as_view(), name='emptypes'),
+    # JWT token endpoints
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('departments/', unique_departments, name='unique-departments'),
+    path('faculty-by-department/', faculty_by_department, name='faculty-by-department'),
+]

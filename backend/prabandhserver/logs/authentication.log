@@ -1,0 +1,284 @@
+2025-05-29 14:42:37,548 INFO views 5208 664 Login attempt received
+2025-05-29 14:42:37,552 INFO views 5208 664 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'student'}
+2025-05-29 14:42:37,554 INFO serializers 5208 664 Login attempt for user_id: betn1cs23072, user_type: student
+2025-05-29 14:42:37,557 WARNING serializers 5208 664 User type mismatch. User: faculty, Requested: student
+2025-05-29 14:42:37,557 ERROR serializers 5208 664 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type student. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:42:38,150 WARNING serializers 5208 664 User authenticated but type mismatch. User: faculty, Requested: student
+2025-05-29 14:42:38,152 WARNING views 5208 664 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not student.', code='invalid')]}
+2025-05-29 14:42:42,051 INFO views 5208 664 Login attempt received
+2025-05-29 14:42:42,053 INFO views 5208 664 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 14:42:42,054 INFO serializers 5208 664 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-05-29 14:42:42,659 INFO serializers 5208 664 User betn1cs23072 authenticated successfully
+2025-05-29 14:42:42,666 INFO views 5208 664 User betn1cs23072 logged in successfully
+2025-05-29 14:52:00,141 INFO views 9036 9976 Login attempt received
+2025-05-29 14:52:00,343 INFO views 9036 9976 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 14:52:00,779 INFO serializers 9036 9976 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-05-29 14:52:03,094 INFO serializers 9036 9976 User betn1cs23072 authenticated successfully
+2025-05-29 14:52:03,756 INFO views 9036 9976 User betn1cs23072 logged in successfully
+2025-05-29 14:52:33,807 INFO views 9036 9976 Login attempt received
+2025-05-29 14:52:33,807 INFO views 9036 9976 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 14:52:33,808 INFO serializers 9036 9976 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-05-29 14:52:34,422 INFO serializers 9036 9976 User betn1cs23041 authenticated successfully
+2025-05-29 14:52:34,429 INFO views 9036 9976 User betn1cs23041 logged in successfully
+2025-05-29 14:54:39,388 INFO views 9096 8380 Login attempt received
+2025-05-29 14:54:39,389 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'pro'}
+2025-05-29 14:54:39,389 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: pro
+2025-05-29 14:54:39,404 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: pro
+2025-05-29 14:54:39,404 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type pro. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:54:40,008 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: pro
+2025-05-29 14:54:40,009 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not pro.', code='invalid')]}
+2025-05-29 14:54:42,208 INFO views 9096 8380 Login attempt received
+2025-05-29 14:54:42,258 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'technician'}
+2025-05-29 14:54:42,274 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: technician
+2025-05-29 14:54:42,277 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: technician
+2025-05-29 14:54:42,278 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type technician. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:54:42,924 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: technician
+2025-05-29 14:54:42,925 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not technician.', code='invalid')]}
+2025-05-29 14:54:45,876 INFO views 9096 8380 Login attempt received
+2025-05-29 14:54:45,876 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'counselling'}
+2025-05-29 14:54:45,876 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: counselling
+2025-05-29 14:54:45,878 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: counselling
+2025-05-29 14:54:45,878 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type counselling. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:54:46,483 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: counselling
+2025-05-29 14:54:46,483 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not counselling.', code='invalid')]}
+2025-05-29 14:54:50,734 INFO views 9096 8380 Login attempt received
+2025-05-29 14:54:50,735 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'deputyRegistrar'}
+2025-05-29 14:54:50,735 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: deputyRegistrar
+2025-05-29 14:54:50,737 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: deputyRegistrar
+2025-05-29 14:54:50,738 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type deputyRegistrar. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:54:51,341 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: deputyRegistrar
+2025-05-29 14:54:51,342 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not deputyRegistrar.', code='invalid')]}
+2025-05-29 14:54:53,672 INFO views 9096 8380 Login attempt received
+2025-05-29 14:54:53,672 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'exam'}
+2025-05-29 14:54:53,673 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: exam
+2025-05-29 14:54:53,674 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: exam
+2025-05-29 14:54:53,675 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type exam. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:54:54,274 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: exam
+2025-05-29 14:54:54,274 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not exam.', code='invalid')]}
+2025-05-29 14:54:57,018 INFO views 9096 8380 Login attempt received
+2025-05-29 14:54:57,019 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'hod'}
+2025-05-29 14:54:57,020 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: hod
+2025-05-29 14:54:57,022 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: hod
+2025-05-29 14:54:57,022 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type hod. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:54:57,640 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: hod
+2025-05-29 14:54:57,641 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not hod.', code='invalid')]}
+2025-05-29 14:55:00,292 INFO views 9096 8380 Login attempt received
+2025-05-29 14:55:00,292 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 14:55:00,293 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-05-29 14:55:00,901 INFO serializers 9096 8380 User betn1cs23072 authenticated successfully
+2025-05-29 14:55:00,909 INFO views 9096 8380 User betn1cs23072 logged in successfully
+2025-05-29 14:56:39,426 INFO views 9096 8380 Login attempt received
+2025-05-29 14:56:39,438 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'student'}
+2025-05-29 14:56:39,438 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23041, user_type: student
+2025-05-29 14:56:39,440 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: student
+2025-05-29 14:56:39,440 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23041 and User Type student. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:56:40,071 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: student
+2025-05-29 14:56:40,072 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not student.', code='invalid')]}
+2025-05-29 14:56:42,088 INFO views 9096 8380 Login attempt received
+2025-05-29 14:56:42,089 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'technician'}
+2025-05-29 14:56:42,089 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23041, user_type: technician
+2025-05-29 14:56:42,091 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: technician
+2025-05-29 14:56:42,092 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23041 and User Type technician. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 14:56:42,725 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: technician
+2025-05-29 14:56:42,726 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not technician.', code='invalid')]}
+2025-05-29 14:56:45,297 INFO views 9096 8380 Login attempt received
+2025-05-29 14:56:45,300 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 14:56:45,301 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-05-29 14:56:45,931 INFO serializers 9096 8380 User betn1cs23041 authenticated successfully
+2025-05-29 14:56:45,938 INFO views 9096 8380 User betn1cs23041 logged in successfully
+2025-05-29 15:01:03,117 INFO views 9096 8380 Login attempt received
+2025-05-29 15:01:03,120 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'student'}
+2025-05-29 15:01:03,120 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23041, user_type: student
+2025-05-29 15:01:03,122 WARNING serializers 9096 8380 User type mismatch. User: faculty, Requested: student
+2025-05-29 15:01:03,122 ERROR serializers 9096 8380 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23041 and User Type student. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 15:01:03,703 WARNING serializers 9096 8380 User authenticated but type mismatch. User: faculty, Requested: student
+2025-05-29 15:01:03,703 WARNING views 9096 8380 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not student.', code='invalid')]}
+2025-05-29 15:01:14,626 INFO views 9096 8380 Login attempt received
+2025-05-29 15:01:14,631 INFO views 9096 8380 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 15:01:14,632 INFO serializers 9096 8380 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-05-29 15:01:15,254 INFO serializers 9096 8380 User betn1cs23041 authenticated successfully
+2025-05-29 15:01:15,257 INFO views 9096 8380 User betn1cs23041 logged in successfully
+2025-05-29 15:11:44,544 INFO views 9096 10712 Login attempt received
+2025-05-29 15:11:44,545 INFO views 9096 10712 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'student'}
+2025-05-29 15:11:44,545 INFO serializers 9096 10712 Login attempt for user_id: betn1cs23072, user_type: student
+2025-05-29 15:11:44,547 WARNING serializers 9096 10712 User type mismatch. User: faculty, Requested: student
+2025-05-29 15:11:44,548 ERROR serializers 9096 10712 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type student. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 15:11:45,127 WARNING serializers 9096 10712 User authenticated but type mismatch. User: faculty, Requested: student
+2025-05-29 15:11:45,128 WARNING views 9096 10712 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not student.', code='invalid')]}
+2025-05-29 15:11:58,093 INFO views 9096 10712 Login attempt received
+2025-05-29 15:11:58,098 INFO views 9096 10712 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'pro'}
+2025-05-29 15:11:58,101 INFO serializers 9096 10712 Login attempt for user_id: betn1cs23072, user_type: pro
+2025-05-29 15:11:58,107 WARNING serializers 9096 10712 User type mismatch. User: faculty, Requested: pro
+2025-05-29 15:11:58,108 ERROR serializers 9096 10712 Error during login validation: {'user_type': ErrorDetail(string='No account found with User ID betn1cs23072 and User Type pro. This user exists with type: Faculty.', code='invalid')}
+2025-05-29 15:11:58,678 WARNING serializers 9096 10712 User authenticated but type mismatch. User: faculty, Requested: pro
+2025-05-29 15:11:58,679 WARNING views 9096 10712 Login validation errors: {'user_type': [ErrorDetail(string='Authentication error: User type mismatch. You are a Faculty, not pro.', code='invalid')]}
+2025-05-29 15:12:05,474 INFO views 9096 10712 Login attempt received
+2025-05-29 15:12:05,474 INFO views 9096 10712 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-29 15:12:05,475 INFO serializers 9096 10712 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-05-29 15:12:06,033 INFO serializers 9096 10712 User betn1cs23072 authenticated successfully
+2025-05-29 15:12:06,041 INFO views 9096 10712 User betn1cs23072 logged in successfully
+2025-05-31 08:35:20,201 INFO views 9080 10476 Login attempt received
+2025-05-31 08:35:20,201 INFO views 9080 10476 Login request data: {'user_id': 'betn1cs23071', 'password': 'qwerty990', 'user_type': 'student'}
+2025-05-31 08:35:20,202 INFO serializers 9080 10476 Login attempt for user_id: betn1cs23071, user_type: student
+2025-05-31 08:35:20,203 WARNING serializers 9080 10476 No user found with ID: betn1cs23071
+2025-05-31 08:35:20,203 ERROR serializers 9080 10476 Error during login validation: {'user_id': ErrorDetail(string='No account found with this User ID.', code='invalid')}
+2025-05-31 08:35:20,751 WARNING serializers 9080 10476 Authentication failed for user_id: betn1cs23071 - Invalid password
+2025-05-31 08:35:20,752 WARNING views 9080 10476 Login validation errors: {'password': [ErrorDetail(string='Invalid password. Please try again.', code='invalid')]}
+2025-05-31 08:35:25,266 INFO views 9080 10476 Login attempt received
+2025-05-31 08:35:25,266 INFO views 9080 10476 Login request data: {'user_id': 'betn1cs23071', 'password': 'qwerty990', 'user_type': 'faculty'}
+2025-05-31 08:35:25,266 INFO serializers 9080 10476 Login attempt for user_id: betn1cs23071, user_type: faculty
+2025-05-31 08:35:25,267 WARNING serializers 9080 10476 No user found with ID: betn1cs23071
+2025-05-31 08:35:25,267 ERROR serializers 9080 10476 Error during login validation: {'user_id': ErrorDetail(string='No account found with this User ID.', code='invalid')}
+2025-05-31 08:35:25,920 WARNING serializers 9080 10476 Authentication failed for user_id: betn1cs23071 - Invalid password
+2025-05-31 08:35:25,920 WARNING views 9080 10476 Login validation errors: {'password': [ErrorDetail(string='Invalid password. Please try again.', code='invalid')]}
+2025-05-31 08:35:30,382 INFO views 9080 10476 Login attempt received
+2025-05-31 08:35:30,383 INFO views 9080 10476 Login request data: {'user_id': 'betn1cs23071', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-05-31 08:35:30,383 INFO serializers 9080 10476 Login attempt for user_id: betn1cs23071, user_type: hr
+2025-05-31 08:35:30,384 WARNING serializers 9080 10476 No user found with ID: betn1cs23071
+2025-05-31 08:35:30,384 ERROR serializers 9080 10476 Error during login validation: {'user_id': ErrorDetail(string='No account found with this User ID.', code='invalid')}
+2025-05-31 08:35:30,989 WARNING serializers 9080 10476 Authentication failed for user_id: betn1cs23071 - Invalid password
+2025-05-31 08:35:30,996 WARNING views 9080 10476 Login validation errors: {'password': [ErrorDetail(string='Invalid password. Please try again.', code='invalid')]}
+2025-05-31 08:35:43,088 INFO views 9080 10476 Login attempt received
+2025-05-31 08:35:43,098 INFO views 9080 10476 Login request data: {'user_id': 'betn1cs23071', 'password': 'qwerty990q', 'user_type': 'hr'}
+2025-05-31 08:35:43,100 INFO serializers 9080 10476 Login attempt for user_id: betn1cs23071, user_type: hr
+2025-05-31 08:35:43,101 WARNING serializers 9080 10476 No user found with ID: betn1cs23071
+2025-05-31 08:35:43,102 ERROR serializers 9080 10476 Error during login validation: {'user_id': ErrorDetail(string='No account found with this User ID.', code='invalid')}
+2025-05-31 08:35:43,666 WARNING serializers 9080 10476 Authentication failed for user_id: betn1cs23071 - Invalid password
+2025-05-31 08:35:43,666 WARNING views 9080 10476 Login validation errors: {'password': [ErrorDetail(string='Invalid password. Please try again.', code='invalid')]}
+2025-05-31 08:35:59,081 INFO views 9080 10476 Login attempt received
+2025-05-31 08:35:59,082 INFO views 9080 10476 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-31 08:35:59,082 INFO serializers 9080 10476 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-05-31 08:35:59,713 INFO serializers 9080 10476 User betn1cs23072 authenticated successfully
+2025-05-31 08:35:59,720 INFO views 9080 10476 User betn1cs23072 logged in successfully
+2025-05-31 08:37:29,572 INFO views 9080 10476 Login attempt received
+2025-05-31 08:37:29,572 INFO views 9080 10476 Login request data: {'user_id': 'betn1cs23071', 'password': 'qwert990', 'user_type': 'hr'}
+2025-05-31 08:37:29,573 INFO serializers 9080 10476 Login attempt for user_id: betn1cs23071, user_type: hr
+2025-05-31 08:37:29,576 WARNING serializers 9080 10476 No user found with ID: betn1cs23071
+2025-05-31 08:37:29,577 ERROR serializers 9080 10476 Error during login validation: {'user_id': ErrorDetail(string='No account found with this User ID.', code='invalid')}
+2025-05-31 08:37:30,158 WARNING serializers 9080 10476 Authentication failed for user_id: betn1cs23071 - Invalid password
+2025-05-31 08:37:30,159 WARNING views 9080 10476 Login validation errors: {'password': [ErrorDetail(string='Invalid password. Please try again.', code='invalid')]}
+2025-05-31 08:52:30,311 INFO views 2332 1708 Login attempt received
+2025-05-31 08:52:30,324 INFO views 2332 1708 Login request data: {'user_id': 'betn1cs23071', 'password': 'qazpoi990', 'user_type': 'hr'}
+2025-05-31 08:52:30,325 INFO serializers 2332 1708 Login attempt for user_id: betn1cs23071, user_type: hr
+2025-05-31 08:52:30,960 INFO serializers 2332 1708 User betn1cs23071 authenticated successfully
+2025-05-31 08:52:30,969 INFO views 2332 1708 User betn1cs23071 logged in successfully
+2025-05-31 10:41:48,683 INFO views 5704 10368 Login attempt received
+2025-05-31 10:41:48,684 INFO views 5704 10368 Login request data: {'user_id': 'betn1cs23071', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-05-31 10:41:48,688 INFO serializers 5704 10368 Login attempt for user_id: betn1cs23071, user_type: hr
+2025-05-31 10:41:49,320 INFO serializers 5704 10368 User betn1cs23071 authenticated successfully
+2025-05-31 10:41:49,327 INFO views 5704 10368 User betn1cs23071 logged in successfully
+2025-05-31 10:59:07,447 INFO views 5704 3780 Login attempt received
+2025-05-31 10:59:07,507 INFO views 5704 3780 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-05-31 10:59:07,509 INFO serializers 5704 3780 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-05-31 10:59:08,103 INFO serializers 5704 3780 User betn1cs23041 authenticated successfully
+2025-05-31 10:59:08,111 INFO views 5704 3780 User betn1cs23041 logged in successfully
+2025-06-01 00:58:30,933 INFO views 8864 5672 Login attempt received
+2025-06-01 00:58:30,933 INFO views 8864 5672 Login request data: {'user_id': 'betn1cs23075', 'password': 'qwerty990', 'user_type': 'vc'}
+2025-06-01 00:58:30,934 INFO serializers 8864 5672 Login attempt for user_id: betn1cs23075, user_type: vc
+2025-06-01 00:58:31,524 INFO serializers 8864 5672 User betn1cs23075 authenticated successfully
+2025-06-01 00:58:31,534 INFO views 8864 5672 User betn1cs23075 logged in successfully
+2025-06-01 02:04:20,769 INFO views 8864 8604 Login attempt received
+2025-06-01 02:04:20,807 INFO views 8864 8604 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-01 02:04:20,809 INFO serializers 8864 8604 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-01 02:04:21,432 INFO serializers 8864 8604 User betn1cs23041 authenticated successfully
+2025-06-01 02:04:21,440 INFO views 8864 8604 User betn1cs23041 logged in successfully
+2025-06-01 02:05:54,630 INFO views 8864 8604 Login attempt received
+2025-06-01 02:05:54,630 INFO views 8864 8604 Login request data: {'user_id': 'betn1cs23075', 'password': 'qwerty990', 'user_type': 'vc'}
+2025-06-01 02:05:54,631 INFO serializers 8864 8604 Login attempt for user_id: betn1cs23075, user_type: vc
+2025-06-01 02:05:55,283 INFO serializers 8864 8604 User betn1cs23075 authenticated successfully
+2025-06-01 02:05:55,296 INFO views 8864 8604 User betn1cs23075 logged in successfully
+2025-06-01 21:03:23,833 INFO views 7416 5096 Login attempt received
+2025-06-01 21:03:23,833 INFO views 7416 5096 Login request data: {'user_id': 'betn1cs23074', 'password': 'qazpoi990', 'user_type': 'hr'}
+2025-06-01 21:03:23,834 INFO serializers 7416 5096 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-01 21:03:24,429 WARNING serializers 7416 5096 Authentication failed for user_id: betn1cs23074 - Invalid password
+2025-06-01 21:03:24,430 WARNING views 7416 5096 Login validation errors: {'password': [ErrorDetail(string='Invalid password. Please try again.', code='invalid')]}
+2025-06-01 21:03:33,581 INFO views 7416 5096 Login attempt received
+2025-06-01 21:03:33,581 INFO views 7416 5096 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-01 21:03:33,582 INFO serializers 7416 5096 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-01 21:03:34,140 INFO serializers 7416 5096 User betn1cs23074 authenticated successfully
+2025-06-01 21:03:34,149 INFO views 7416 5096 User betn1cs23074 logged in successfully
+2025-06-02 10:39:04,907 INFO views 4284 6156 Login attempt received
+2025-06-02 10:39:04,909 INFO views 4284 6156 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-02 10:39:04,920 INFO serializers 4284 6156 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-02 10:39:05,641 INFO serializers 4284 6156 User betn1cs23041 authenticated successfully
+2025-06-02 10:39:05,660 INFO views 4284 6156 User betn1cs23041 logged in successfully
+2025-06-02 10:50:00,627 INFO views 4284 10132 Login attempt received
+2025-06-02 10:50:00,628 INFO views 4284 10132 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-02 10:50:00,630 INFO serializers 4284 10132 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-02 10:50:01,280 INFO serializers 4284 10132 User betn1cs23074 authenticated successfully
+2025-06-02 10:50:01,287 INFO views 4284 10132 User betn1cs23074 logged in successfully
+2025-06-02 11:48:14,470 INFO views 4284 6484 Login attempt received
+2025-06-02 11:48:14,472 INFO views 4284 6484 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-02 11:48:14,482 INFO serializers 4284 6484 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-02 11:48:15,089 INFO serializers 4284 6484 User betn1cs23041 authenticated successfully
+2025-06-02 11:48:15,104 INFO views 4284 6484 User betn1cs23041 logged in successfully
+2025-06-02 11:52:14,534 INFO views 4284 6484 Login attempt received
+2025-06-02 11:52:14,534 INFO views 4284 6484 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-02 11:52:14,535 INFO serializers 4284 6484 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-02 11:52:15,158 INFO serializers 4284 6484 User betn1cs23074 authenticated successfully
+2025-06-02 11:52:15,165 INFO views 4284 6484 User betn1cs23074 logged in successfully
+2025-06-02 11:59:46,849 INFO views 4284 7480 Login attempt received
+2025-06-02 11:59:46,850 INFO views 4284 7480 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-02 11:59:46,851 INFO serializers 4284 7480 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-02 11:59:47,468 INFO serializers 4284 7480 User betn1cs23041 authenticated successfully
+2025-06-02 11:59:47,475 INFO views 4284 7480 User betn1cs23041 logged in successfully
+2025-06-02 12:02:56,185 INFO views 4284 9264 Login attempt received
+2025-06-02 12:02:56,186 INFO views 4284 9264 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-02 12:02:56,187 INFO serializers 4284 9264 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-02 12:02:56,787 INFO serializers 4284 9264 User betn1cs23074 authenticated successfully
+2025-06-02 12:02:56,794 INFO views 4284 9264 User betn1cs23074 logged in successfully
+2025-06-02 12:10:38,172 INFO views 4284 12296 Login attempt received
+2025-06-02 12:10:38,172 INFO views 4284 12296 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-02 12:10:38,173 INFO serializers 4284 12296 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-02 12:10:39,018 INFO serializers 4284 12296 User betn1cs23041 authenticated successfully
+2025-06-02 12:10:39,025 INFO views 4284 12296 User betn1cs23041 logged in successfully
+2025-06-02 12:14:48,153 INFO views 4284 12292 Login attempt received
+2025-06-02 12:14:48,154 INFO views 4284 12292 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-02 12:14:48,155 INFO serializers 4284 12292 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-02 12:14:48,821 INFO serializers 4284 12292 User betn1cs23074 authenticated successfully
+2025-06-02 12:14:48,832 INFO views 4284 12292 User betn1cs23074 logged in successfully
+2025-06-02 13:58:38,759 INFO views 984 6284 Login attempt received
+2025-06-02 13:58:38,760 INFO views 984 6284 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-02 13:58:38,760 INFO serializers 984 6284 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-02 13:58:39,392 INFO serializers 984 6284 User betn1cs23041 authenticated successfully
+2025-06-02 13:58:39,407 INFO views 984 6284 User betn1cs23041 logged in successfully
+2025-06-02 14:00:15,266 INFO views 984 6284 Login attempt received
+2025-06-02 14:00:15,267 INFO views 984 6284 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-02 14:00:15,268 INFO serializers 984 6284 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-02 14:00:15,856 INFO serializers 984 6284 User betn1cs23074 authenticated successfully
+2025-06-02 14:00:15,863 INFO views 984 6284 User betn1cs23074 logged in successfully
+2025-06-02 14:27:28,638 INFO views 984 9680 Login attempt received
+2025-06-02 14:27:28,638 INFO views 984 9680 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-02 14:27:28,640 INFO serializers 984 9680 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-02 14:27:29,206 INFO serializers 984 9680 User betn1cs23041 authenticated successfully
+2025-06-02 14:27:29,215 INFO views 984 9680 User betn1cs23041 logged in successfully
+2025-06-03 09:34:26,330 INFO views 8708 6884 Login attempt received
+2025-06-03 09:34:26,331 INFO views 8708 6884 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-03 09:34:26,331 INFO serializers 8708 6884 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-03 09:34:26,885 INFO serializers 8708 6884 User betn1cs23074 authenticated successfully
+2025-06-03 09:34:26,895 INFO views 8708 6884 User betn1cs23074 logged in successfully
+2025-06-03 09:37:06,492 INFO views 8708 6884 Login attempt received
+2025-06-03 09:37:06,492 INFO views 8708 6884 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-03 09:37:06,493 INFO serializers 8708 6884 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-03 09:37:07,100 INFO serializers 8708 6884 User betn1cs23041 authenticated successfully
+2025-06-03 09:37:07,108 INFO views 8708 6884 User betn1cs23041 logged in successfully
+2025-06-03 10:23:59,251 INFO views 8708 5016 Login attempt received
+2025-06-03 10:23:59,252 INFO views 8708 5016 Login request data: {'user_id': 'betn1cs23074', 'password': 'qwerty990', 'user_type': 'hr'}
+2025-06-03 10:23:59,253 INFO serializers 8708 5016 Login attempt for user_id: betn1cs23074, user_type: hr
+2025-06-03 10:23:59,844 INFO serializers 8708 5016 User betn1cs23074 authenticated successfully
+2025-06-03 10:23:59,851 INFO views 8708 5016 User betn1cs23074 logged in successfully
+2025-06-03 10:31:11,960 INFO views 8516 9792 Login attempt received
+2025-06-03 10:31:11,963 INFO views 8516 9792 Login request data: {'user_id': 'betn1cs23041', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-03 10:31:11,966 INFO serializers 8516 9792 Login attempt for user_id: betn1cs23041, user_type: faculty
+2025-06-03 10:31:12,579 INFO serializers 8516 9792 User betn1cs23041 authenticated successfully
+2025-06-03 10:31:12,585 INFO views 8516 9792 User betn1cs23041 logged in successfully
+2025-06-03 10:42:36,265 INFO views 8516 8772 Login attempt received
+2025-06-03 10:42:36,265 INFO views 8516 8772 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-03 10:42:36,266 INFO serializers 8516 8772 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-06-03 10:42:36,878 INFO serializers 8516 8772 User betn1cs23072 authenticated successfully
+2025-06-03 10:42:36,885 INFO views 8516 8772 User betn1cs23072 logged in successfully
+2025-06-04 13:35:49,814 INFO views 13100 8952 Login attempt received
+2025-06-04 13:35:49,815 INFO views 13100 8952 Login request data: {'user_id': 'betn1cs23072', 'password': 'qazpoi990', 'user_type': 'faculty'}
+2025-06-04 13:35:49,815 INFO serializers 13100 8952 Login attempt for user_id: betn1cs23072, user_type: faculty
+2025-06-04 13:35:50,450 INFO serializers 13100 8952 User betn1cs23072 authenticated successfully
+2025-06-04 13:35:50,458 INFO views 13100 8952 User betn1cs23072 logged in successfully

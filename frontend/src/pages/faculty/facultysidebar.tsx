@@ -216,12 +216,7 @@ const FacultySidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
         { name: "Finance Details", path: "/faculty/dcs/finance-details" }
       ]
     },
-    { name: "NOTESHEET", icon: <FileText size={20} />, path: "/faculty/notesheet" },
-    { name: "PASSWORD", icon: <Lock size={20} />, path: "/faculty/password", isSeparator: true },
-    { name: "STUDENTPASSWORD", icon: <Key size={20} />, path: "/faculty/student-password" },
-    // Add separator and logout at the end of the navigation items
-    { name: "Logout", icon: <LogOut size={20} />, path: "/", isSeparator: true },
-     {
+    {
       name: "EVENTS",
       icon: <CalendarCheck size={20} />,
       path: "#",
@@ -231,6 +226,12 @@ const FacultySidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
         { name: "Event Registered List", path: "/faculty/event/registered-list" }
       ]
     },
+    { name: "NOTESHEET", icon: <FileText size={20} />, path: "/faculty/notesheet" },
+    { name: "PASSWORD", icon: <Lock size={20} />, path: "/faculty/password", isSeparator: true },
+    { name: "STUDENTPASSWORD", icon: <Key size={20} />, path: "/faculty/student-password" },
+    // Add separator and logout at the end of the navigation items
+    { name: "Logout", icon: <LogOut size={20} />, path: "/", isSeparator: true },
+    
   ];
 
   return (

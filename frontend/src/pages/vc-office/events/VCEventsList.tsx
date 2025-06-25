@@ -28,6 +28,7 @@ interface VCEvent {
   event_venue?: string;
   audience_type?: string;
   event_description?: string;
+  created_at?: string;
 }
 
 const VCEventsList = () => {
@@ -40,6 +41,7 @@ const VCEventsList = () => {
   const [searchType, setSearchType] = useState('event_name');
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
+  const [selectedEvents, setSelectedEvents] = useState<number[]>([]);
 
   useEffect(() => {
     fetchEvents();
@@ -73,6 +75,22 @@ const VCEventsList = () => {
   const openDetails = (event) => {
     setSelectedEvent(event);
     setShowDialog(true);
+  };
+
+  const handleCheckboxChange = (eventId: number) => {
+    setSelectedEvents(prev =>
+      prev.includes(eventId)
+        ? prev.filter(id => id !== eventId)
+        : [...prev, eventId]
+    );
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedEvents(filteredEvents.map((event: any) => event.id));
+    } else {
+      setSelectedEvents([]);
+    }
   };
 
   const filteredEvents = events.filter((event) => {
@@ -161,6 +179,14 @@ const VCEventsList = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-gradient-to-r from-[#8B0000] to-[#A52A2A] text-white">
+                    <TableHead className="text-white">
+                      <input
+                        type="checkbox"
+                        checked={selectedEvents.length === filteredEvents.length && filteredEvents.length > 0}
+                        onChange={e => handleSelectAll(e.target.checked)}
+                      />
+                    </TableHead>
+                    <TableHead className="text-white">Date</TableHead>
                     <TableHead className="text-white">Event Name</TableHead>
                     <TableHead className="text-white">Organizer</TableHead>
                     <TableHead className="text-white">From Date</TableHead>
@@ -174,6 +200,14 @@ const VCEventsList = () => {
                 <TableBody>
                   {filteredEvents.map(event => (
                     <TableRow key={event.id} className="hover:bg-[#8B0000]/5">
+                      <TableCell>
+                        <input
+                          type="checkbox"
+                          checked={selectedEvents.includes(event.id)}
+                          onChange={() => handleCheckboxChange(event.id)}
+                        />
+                      </TableCell>
+                      <TableCell>{event.created_at ? new Date(event.created_at).toLocaleDateString() : ''}</TableCell>
                       <TableCell>{event.event_name}</TableCell>
                       <TableCell>{event.upload_by}</TableCell>
                       <TableCell>{event.fromdate}</TableCell>
@@ -248,7 +282,6 @@ const VCEventsList = () => {
                     selectedEvent.vcapproval_status === 'Rejected' ? 'bg-red-100 text-red-800' : 
                     'bg-yellow-100 text-yellow-800'}`}>{selectedEvent.vcapproval_status || 'Pending'}</span></div>
               </div>
-              {/* No approval/reject buttons here */}
             </>
           )}
         </DialogContent>
@@ -257,4 +290,4 @@ const VCEventsList = () => {
   );
 };
 
-export default VCEventsList; 
+export default VCEventsList;

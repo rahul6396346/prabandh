@@ -66,4 +66,4 @@ class EventsDetailsSerializer(serializers.ModelSerializer):
         model = EventsDetails
         fields = '__all__'
         read_only_fields = ['upload_by']
-        extra_fields = ['files_uploaded', 'files_required'] 
+        extra_fields = ['files_uploaded', 'files_required', 'created_at'] 

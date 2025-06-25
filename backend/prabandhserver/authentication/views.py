@@ -51,6 +51,7 @@ class LoginView(generics.GenericAPIView):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'user': FacultySerializer(user).data,
+            'emptype': user.emptype,
             'message': 'Login successful'
         }, status=status.HTTP_200_OK)
 

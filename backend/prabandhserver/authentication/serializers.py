@@ -38,27 +38,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     primary_email = serializers.EmailField()
     password = serializers.CharField(max_length=128, write_only=True, style={'input_type': 'password'})
-    emptype = serializers.CharField(max_length=50)
 
     def validate(self, data):
         primary_email = data.get('primary_email')
         password = data.get('password')
-        emptype = data.get('emptype')
 
         if not primary_email or not password:
             raise serializers.ValidationError('Both email and password are required.')
-
-        if not emptype:
-            raise serializers.ValidationError('Employee type is required.')
 
         user = authenticate(request=self.context.get('request'), username=primary_email, password=password)
 
         if not user:
             raise serializers.ValidationError('Invalid credentials.')
-            
-        # Validate that the user's emptype matches the provided emptype
-        if user.emptype != emptype:
-            raise serializers.ValidationError('Invalid employee type for this user.')
 
         data['user'] = user
         return data

@@ -6,7 +6,7 @@ interface AuthContextType {
   user: Faculty | null;
   userType: string | null;
   isLoading: boolean;
-  login: (email: string, password: string, empType: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<string | undefined>;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
 }
@@ -104,19 +104,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('isLoggedIn');
   };
 
-  const login = async (email: string, password: string, empType: string) => {
+  const login = async (email: string, password: string) => {
     try {
       const response = await authService.login({
         primary_email: email,
-        password,
-        emptype: empType
+        password
       });
-
       setUser(response.user);
-      setUserType(empType);
+      setUserType(response.emptype);
       setIsAuthenticated(true);
-      
-      console.log('Login successful, auth context updated');
+      return response.emptype;
     } catch (error) {
       console.error('Login failed:', error);
       throw error;

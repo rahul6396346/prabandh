@@ -27,7 +27,6 @@ const getCSRFToken = () => {
 export interface LoginRequest {
   primary_email: string;
   password: string;
-  emptype: string;
 }
 
 export interface RegisterRequest {
@@ -139,7 +138,7 @@ const authService = {
     return response.data;
   },
 
-  login: async (data: LoginRequest): Promise<AuthResponse> => {
+  login: async (data: LoginRequest): Promise<AuthResponse & { emptype: string }> => {
     await fetchCSRFToken();
     const response = await axios.post(`${API_URL}login/`, data, {
       headers: { 'X-CSRFToken': getCSRFToken() || '' }
@@ -157,14 +156,11 @@ const authService = {
 
     localStorage.setItem('user', JSON.stringify(response.data.user));
     localStorage.setItem('userId', response.data.user.registration_no);
-    localStorage.setItem('userType', data.emptype); // Store the actual emptype that was used to login
+    localStorage.setItem('userType', response.data.emptype); // Use returned emptype
     localStorage.setItem('isLoggedIn', 'true');
-    
-    // Store department information if available in the user object
     if (response.data.user.department) {
       localStorage.setItem('userDepartment', response.data.user.department);
     }
-
     return response.data;
   },
 

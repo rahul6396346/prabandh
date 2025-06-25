@@ -178,13 +178,14 @@ const HRSidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
       path: "#", 
       hasDropdown: true,
       dropdownItems: [
-        { name: "Add Staff", path: "/hr/staff/add" },
+        { name: "Add Staff", path: "/hr/faculty-registration" },
         { name: "Add Staff Bulk", path: "/hr/staff/add-bulk" },
         { name: "Add Staff In Excel", path: "/hr/staff/add-excel" },
         { name: "View Staff", path: "/hr/staff/view" },
         { name: "Fill the Leaves", path: "/hr/staff/fill-leaves" },
         { name: "Offline Leaves", path: "/hr/staff/offline-leaves" },
-        { name: "Leave Status", path: "/hr/staff/leave-status" }
+        { name: "Leave Status", path: "/hr/staff/leave-status" },
+        
       ]
     },
     { 
@@ -451,8 +452,6 @@ const HRSidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
                       {item.dropdownItems.map((subItem, subIndex) => {
                         const isSubItemActive = location.pathname === subItem.path;
                         const isShowing = isDropdownOpen || animatingDropdowns.includes(index);
-                        const isLastItem = subIndex === item.dropdownItems!.length - 1;
-                        
                         return (
                           <Link
                             key={subIndex}
@@ -473,7 +472,6 @@ const HRSidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
                               lineHeight: '1.2'
                             }}
                             onClick={() => {
-                              // Add this path to selected submenu paths when clicked
                               setSelectedSubmenuPaths(prev => [...prev, subItem.path]);
                             }}
                           >
@@ -489,7 +487,6 @@ const HRSidebar = ({ isCollapsed, setIsCollapsed }: SidebarProps) => {
           })}
         </nav>
       </div>
-
       {/* Footer */}
       <div className="p-4 border-t border-sidebar-border border-opacity-100">
         {!isCollapsed ? (

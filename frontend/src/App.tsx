@@ -36,6 +36,8 @@ import EventRegister from "./pages/faculty/event/EventRegister";
 import EventRegisteredList from "./pages/faculty/event/EventRegisteredList";
 import { DeputyRegistrarDashboard, DeputyRegistrarSidebar, DeputyRegistrarLayout } from "./pages/deputy_registrar";
 import { VcOfficeDashboard, VcOfficeLayout, VCEventsList, VCEventDetail } from './pages/vc-office/index';
+import FacultyRegistration from './pages/hr/faculty-registration';
+import RequireHR from './components/RequireHR';
 
 const queryClient = new QueryClient();
 
@@ -59,11 +61,14 @@ const App = () => (
             {/* Deputy Registrar position with its own layout and dashboard */}
             <Route path="/deputy_registrar/*" element={
               <ProtectedRoute allowedUserTypes={["deputy_registrar"]}>
-                <DeputyRegistrarLayout />
+                <DeputyRegistrarLayout>
+                  <Routes>
+                    <Route path="dashboard" element={<DeputyRegistrarDashboard />} />
+                    <Route path="documents" element={<div>Documents Page</div>} />
+                  </Routes>
+                </DeputyRegistrarLayout>
               </ProtectedRoute>
             }>
-              <Route path="dashboard" element={<DeputyRegistrarDashboard />} />
-              <Route path="documents" element={<div>Documents Page</div>} />
               <Route path="schools" element={<SchoolsPage/>} />
               <Route path="programmes" element={<ProgrammesPage />} />
               <Route path="archive" element={<div>Archive Page</div>} />
@@ -196,6 +201,7 @@ const App = () => (
                   <Route path="approvals/rejected" element={<RejectedRequests />} />
                   <Route path="approvals/all" element={<AllRequests />} />
                   <Route path="approvals/leave" element={<LeaveApprovals />} />
+                  <Route path="faculty-registration" element={<RequireHR><FacultyRegistration /></RequireHR>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </HRLayout>

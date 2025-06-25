@@ -4,15 +4,19 @@ import { DeputyRegistrarSidebar } from ".";
 import { User, Lock, LogOut } from "lucide-react";
 import authService from "@/services/authService";
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/contexts/AuthContext';
+
 
 const DeputyRegistrarLayout = () => {
   const navigate = useNavigate();
   const user = authService.getCurrentUser();
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const { logout } = useAuth();
 
-  const handleLogout = async () => {
-    await authService.logout();
-    navigate("/login");
+   const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    await logout();
+    navigate('/');
   };
 
   return (

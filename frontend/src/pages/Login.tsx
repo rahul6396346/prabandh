@@ -100,12 +100,6 @@ const Login = () => {
               <Link to="/forgot-password" className="text-sm text-university-primary hover:underline block">
                 Forgot password?
               </Link>
-              <div className="text-sm">
-                <span className="text-gray-600">Don't have an account? </span>
-                <Link to="/register" className="text-university-primary hover:underline font-medium">
-                  Create Account
-                </Link>
-              </div>
             </div>
           </form>
         </CardContent>

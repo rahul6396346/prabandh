@@ -11,6 +11,7 @@ from django.db import models
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.decorators import action
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 
@@ -193,4 +194,24 @@ class VCEventDetailView(RetrieveAPIView):
         user = request.user
         if getattr(user, 'emptype', '').lower() not in ["vc_office", "vcoffice"]:
             return Response({"detail": "Forbidden"}, status=403)
-        return super().get(request, *args, **kwargs) 
+        return super().get(request, *args, **kwargs)
+
+class EventFileUploadView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, event_id):
+        file_type = request.data.get('file_type')
+        file = request.FILES.get('file')
+        if not file_type or not file:
+            return Response({'detail': 'file_type and file are required.'}, status=status.HTTP_400_BAD_REQUEST)
+        event = EventsDetails.objects.get(id=event_id)
+        allowed_fields = [
+            'proposal_file', 'vcapproval_file', 'creatives', 'attendance_file', 'report_file',
+            'geotagpics_file1', 'geotagpics_file2', 'geotagpics_file3', 'news_social_media', 'news_print_media'
+        ]
+        if file_type not in allowed_fields:
+            return Response({'detail': 'Invalid file_type.'}, status=status.HTTP_400_BAD_REQUEST)
+        setattr(event, file_type, file)
+        event.save()
+        return Response({'detail': f'{file_type} uploaded successfully.'}, status=status.HTTP_200_OK) 

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EventTypeListView, EventSubTypeListView, EventTypeSubtypeListView, delete_event_type, delete_event_subtype, EventsDetailsCreateView, EventsDetailsListView, VCEventsListView, VCEventApprovalView, VCOfficeDashboardView, VCEventDetailView
+from .views import EventTypeListView, EventSubTypeListView, EventTypeSubtypeListView, delete_event_type, delete_event_subtype, EventsDetailsCreateView, EventsDetailsListView, VCEventsListView, VCEventApprovalView, VCOfficeDashboardView, VCEventDetailView, EventFileUploadView
 
 urlpatterns = [
     path('event-types/', EventTypeListView.as_view(), name='event-type-list'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('vc/events/<int:pk>/approve/', VCEventApprovalView.as_view(), name='vc-event-approve'),
     path('vc-office/dashboard/', VCOfficeDashboardView.as_view(), name='vc-office-dashboard'),
     path('vc/events/<int:pk>/', VCEventDetailView.as_view(), name='vc-event-detail'),
+    path('events/<int:event_id>/upload-file/', EventFileUploadView.as_view(), name='event-upload-file'),
 ] 

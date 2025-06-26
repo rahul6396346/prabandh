@@ -3,7 +3,7 @@ import { axiosInstance } from './authService'; // <-- Use your configured instan
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export interface School {
-  id?: number;
+  id: number;
   name: string;
 }
 

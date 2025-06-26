@@ -36,6 +36,8 @@ import EventRegister from "./pages/faculty/event/EventRegister";
 import EventRegisteredList from "./pages/faculty/event/EventRegisteredList";
 import { DeputyRegistrarDashboard, DeputyRegistrarSidebar, DeputyRegistrarLayout } from "./pages/deputy_registrar";
 import { VcOfficeDashboard, VcOfficeLayout, VCEventsList, VCEventDetail } from './pages/vc-office/index';
+import FacultyRegistration from './pages/hr/faculty-registration';
+import RequireHR from './components/RequireHR';
 
 const queryClient = new QueryClient();
 
@@ -63,9 +65,10 @@ const App = () => (
               </ProtectedRoute>
             }>
               <Route path="dashboard" element={<DeputyRegistrarDashboard />} />
-              <Route path="documents" element={<div>Documents Page</div>} />
-              <Route path="schools" element={<SchoolsPage/>} />
+              <Route path="schools" element={<SchoolsPage />} />
               <Route path="programmes" element={<ProgrammesPage />} />
+              <Route path="subjects" element={<SubjectPage />} />
+              <Route path="scheme/subjects" element={<SubjectScheme />} />
               <Route path="archive" element={<div>Archive Page</div>} />
               <Route path="search" element={<div>Search Page</div>} />
               <Route path="approvals" element={<div>Approvals Page</div>} />
@@ -73,8 +76,6 @@ const App = () => (
               <Route path="reports" element={<div>Reports Page</div>} />
               <Route path="profile" element={<div>Profile Page</div>} />
               <Route path="settings" element={<div>Settings Page</div>} />
-              <Route path="subjects" element={<SubjectPage />} />
-              <Route path="scheme/subjects" element={<SubjectScheme />} />
               <Route path="*" element={<NotFound />} />
             </Route>
             
@@ -196,6 +197,7 @@ const App = () => (
                   <Route path="approvals/rejected" element={<RejectedRequests />} />
                   <Route path="approvals/all" element={<AllRequests />} />
                   <Route path="approvals/leave" element={<LeaveApprovals />} />
+                  <Route path="faculty-registration" element={<RequireHR><FacultyRegistration /></RequireHR>} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </HRLayout>

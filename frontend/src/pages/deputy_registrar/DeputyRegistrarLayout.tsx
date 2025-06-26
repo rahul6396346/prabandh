@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
 import DeputyRegistrarHeader from "./DeputyRegistrarHeader";
 
-const DeputyRegistrarLayout = ({ children }) => {
+const DeputyRegistrarLayout = ({ children }: { children?: React.ReactNode }) => {
   const navigate = useNavigate();
   const user = authService.getCurrentUser();
   const [menuOpen, setMenuOpen] = React.useState(false);

@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Badge } from "@/components/ui/badge";
 import { Info, Filter } from "lucide-react";
 import { axiosInstance } from "@/services/authService";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = "/api/facultyservices";
 const FILTERS = [
@@ -42,6 +43,7 @@ const VCEventsList = () => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [selectedEvents, setSelectedEvents] = useState<number[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEvents();
@@ -251,7 +253,7 @@ const VCEventsList = () => {
                         ) : <span className="text-red-600 text-xs">None</span>}
                       </TableCell>
                       <TableCell>
-                        <Button size="sm" variant="outline" onClick={() => openDetails(event)}>
+                        <Button size="sm" variant="outline" onClick={() => window.open(`/vc_office/events/${event.id}`, '_blank')}> 
                           <Info className="h-4 w-4 mr-1" /> Details
                         </Button>
                       </TableCell>
@@ -264,28 +266,7 @@ const VCEventsList = () => {
         </CardContent>
       </div>
       {/* Event Details Dialog */}
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent>
-          {selectedEvent && (
-            <>
-              <DialogHeader>
-                <DialogTitle>{selectedEvent.event_name}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-2 py-2">
-                <div><strong>Organizer:</strong> {selectedEvent.upload_by}</div>
-                <div><strong>Date:</strong> {selectedEvent.fromdate} - {selectedEvent.todate}</div>
-                <div><strong>Location:</strong> {selectedEvent.event_venue}</div>
-                <div><strong>Participants:</strong> {selectedEvent.audience_type}</div>
-                <div><strong>Description:</strong> {selectedEvent.event_description}</div>
-                <div><strong>Status:</strong> <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-                  ${selectedEvent.vcapproval_status === 'Approved' ? 'bg-green-100 text-green-800' : 
-                    selectedEvent.vcapproval_status === 'Rejected' ? 'bg-red-100 text-red-800' : 
-                    'bg-yellow-100 text-yellow-800'}`}>{selectedEvent.vcapproval_status || 'Pending'}</span></div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+      {/* Dialog removed: approval functionality is no longer present */}
     </div>
   );
 };

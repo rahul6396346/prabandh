@@ -147,7 +147,7 @@ const EventRegisteredList: React.FC = () => {
         </div>
         <div className="overflow-x-auto rounded-lg shadow">
           <div className="max-h-[600px] overflow-y-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className="w-full min-w-[1200px] divide-y divide-gray-200">
               <thead className="bg-gradient-to-r from-blue-600 to-blue-700 sticky top-0">
                 <tr>
                   <th className="px-4 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">

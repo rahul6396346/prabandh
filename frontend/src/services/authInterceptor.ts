@@ -39,7 +39,7 @@ class AuthInterceptor {
         if (accessToken) {
           config.headers.Authorization = `Bearer ${accessToken}`;
         } else if (token) {
-          config.headers.Authorization = `Token ${token}`;
+          config.headers.Authorization = `Bearer ${token}`;
         }
         
         return config;

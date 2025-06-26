@@ -61,16 +61,14 @@ const App = () => (
             {/* Deputy Registrar position with its own layout and dashboard */}
             <Route path="/deputy_registrar/*" element={
               <ProtectedRoute allowedUserTypes={["deputy_registrar"]}>
-                <DeputyRegistrarLayout>
-                  <Routes>
-                    <Route path="dashboard" element={<DeputyRegistrarDashboard />} />
-                    <Route path="documents" element={<div>Documents Page</div>} />
-                  </Routes>
-                </DeputyRegistrarLayout>
+                <DeputyRegistrarLayout />
               </ProtectedRoute>
             }>
-              <Route path="schools" element={<SchoolsPage/>} />
+              <Route path="dashboard" element={<DeputyRegistrarDashboard />} />
+              <Route path="schools" element={<SchoolsPage />} />
               <Route path="programmes" element={<ProgrammesPage />} />
+              <Route path="subjects" element={<SubjectPage />} />
+              <Route path="scheme/subjects" element={<SubjectScheme />} />
               <Route path="archive" element={<div>Archive Page</div>} />
               <Route path="search" element={<div>Search Page</div>} />
               <Route path="approvals" element={<div>Approvals Page</div>} />
@@ -78,8 +76,6 @@ const App = () => (
               <Route path="reports" element={<div>Reports Page</div>} />
               <Route path="profile" element={<div>Profile Page</div>} />
               <Route path="settings" element={<div>Settings Page</div>} />
-              <Route path="subjects" element={<SubjectPage />} />
-              <Route path="scheme/subjects" element={<SubjectScheme />} />
               <Route path="*" element={<NotFound />} />
             </Route>
             

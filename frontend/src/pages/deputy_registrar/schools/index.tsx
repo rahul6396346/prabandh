@@ -8,12 +8,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Building2, Plus, Trash2, School as SchoolIcon, Search } from 'lucide-react';
 
 export default function SchoolsPage() {
+  console.log('SchoolsPage component mounted');
   const [schools, setSchools] = useState<School[]>([]);
   const [newSchoolName, setNewSchoolName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log('SchoolsPage useEffect running');
     // Always reload schools on mount and when the page becomes visible (tab focus)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
@@ -41,8 +43,10 @@ export default function SchoolsPage() {
   const loadSchools = async () => {
     try {
       const data = await schoolService.getAllSchools();
+      console.log('Schools API response:', data);
       setSchools(data);
     } catch (error) {
+      console.error('Failed to load schools:', error);
       toast({
         title: "Error",
         description: "Failed to load schools",

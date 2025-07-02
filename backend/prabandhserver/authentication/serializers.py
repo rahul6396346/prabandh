@@ -16,7 +16,20 @@ class FacultySerializer(serializers.ModelSerializer):
             'department',
             'designation',
             'school',
-            'emptype'
+            'emptype',
+            'father_name',
+            'gender',
+            'category',
+            'dob',
+            'contact_no',
+            'address',
+            'joining_date',
+            'qualification',
+            'experience',
+            'marital_status',
+            'is_staff',
+            'is_active',
+            'date_joined',
         ]
         read_only_fields = ['id']
 
@@ -26,7 +39,27 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Faculty
-        fields = ['primary_email', 'password', 'name', 'registration_no', 'emptype', 'department']
+        fields = [
+            'primary_email', 'password', 'name', 'registration_no', 'emptype', 'department', 'school',
+            'father_name', 'gender', 'category', 'dob', 'designation', 'contact_no', 'official_email',
+            'address', 'joining_date', 'qualification', 'experience', 'marital_status'
+        ]
+        extra_kwargs = {
+            'department': {'required': False, 'allow_blank': True},
+            'school': {'required': False, 'allow_null': True},
+            'father_name': {'required': False, 'allow_blank': True},
+            'gender': {'required': False, 'allow_blank': True},
+            'category': {'required': False, 'allow_blank': True},
+            'dob': {'required': False, 'allow_blank': True},
+            'designation': {'required': False, 'allow_blank': True},
+            'contact_no': {'required': False, 'allow_blank': True},
+            'official_email': {'required': False, 'allow_blank': True},
+            'address': {'required': False, 'allow_blank': True},
+            'joining_date': {'required': False, 'allow_blank': True},
+            'qualification': {'required': False, 'allow_blank': True},
+            'experience': {'required': False, 'allow_blank': True},
+            'marital_status': {'required': False, 'allow_blank': True},
+        }
 
     def create(self, validated_data):
         password = validated_data.pop('password')

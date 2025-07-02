@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Badge } from "@/components/ui/badge";
 import { Check, X, Info, RefreshCw, Filter } from "lucide-react";
 import axios from "@/lib/axios";
+import { usePushNotify } from '@/hooks/usePushNotify';
 
 const API_BASE = "/api/facultyservices";
 const FILTERS = [
@@ -27,10 +28,15 @@ const EventApprovals = () => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [selectedEvents, setSelectedEvents] = useState<number[]>([]);
+  const { requestPermission, pushNotify } = usePushNotify();
 
   useEffect(() => {
     fetchEvents();
   }, []);
+
+  useEffect(() => {
+    requestPermission();
+  }, [requestPermission]);
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -56,6 +62,9 @@ const EventApprovals = () => {
 
   const handleApprove = async (id) => {
     await axios.patch(`${API_BASE}/vc/events/${id}/approve/`, { vcapproval_status: "Approved" });
+    pushNotify("Event Approved", {
+      body: "The event has been approved by the VC.",
+    });
     fetchEvents();
     setShowDialog(false);
   };

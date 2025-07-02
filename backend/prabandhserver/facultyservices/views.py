@@ -12,6 +12,10 @@ from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.decorators import action
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser
+from .utils import send_event_notification_email
+from authentication.models import Faculty
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -112,11 +116,18 @@ class EventsDetailsCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        # Use the Faculty model's name field if available
         faculty_name = getattr(user, 'name', None)
         if not faculty_name:
             faculty_name = str(user)
-        serializer.save(upload_by=faculty_name)
+        event = serializer.save(upload_by=faculty_name)
+        # Notify VC and VC Office by email
+        vc_users = Faculty.objects.filter(emptype__in=['vc', 'vc_office'])
+        for vc in vc_users:
+            send_event_notification_email(
+                vc.primary_email,
+                f"New Event Submission: {event.event_name}",
+                f"A new event '{event.event_name}' has been submitted by {faculty_name}."
+            )
 
 class EventsDetailsListView(generics.ListAPIView):
     serializer_class = EventsDetailsSerializer
@@ -158,6 +169,15 @@ class VCEventApprovalView(UpdateAPIView):
             return Response({'error': 'Invalid status'}, status=400)
         event.vcapproval_status = status_value
         event.save()
+        # Notify faculty on approval
+        if status_value == 'Approved':
+            faculty = Faculty.objects.filter(name=event.upload_by).first()
+            if faculty:
+                send_event_notification_email(
+                    faculty.primary_email,
+                    f"Your event '{event.event_name}' has been approved by the Vice Chancellor.",
+                    f"Congratulations! Your event '{event.event_name}' has been approved."
+                )
         return Response(self.get_serializer(event).data)
 
 class VCOfficeDashboardView(APIView):
@@ -214,4 +234,17 @@ class EventFileUploadView(APIView):
             return Response({'detail': 'Invalid file_type.'}, status=status.HTTP_400_BAD_REQUEST)
         setattr(event, file_type, file)
         event.save()
-        return Response({'detail': f'{file_type} uploaded successfully.'}, status=status.HTTP_200_OK) 
+        return Response({'detail': f'{file_type} uploaded successfully.'}, status=status.HTTP_200_OK)
+
+@csrf_exempt
+def test_send_email(request):
+    if request.method == 'POST':
+        to_email = request.POST.get('to_email', 'ziyakhanitm@gmail.com')
+        subject = request.POST.get('subject', 'SMTP Test Email')
+        body = request.POST.get('body', 'This is a test email from Django SMTP setup.')
+        try:
+            send_event_notification_email(to_email, subject, body)
+            return JsonResponse({'success': True, 'message': 'Email sent successfully.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    return JsonResponse({'success': False, 'error': 'POST only'}) 

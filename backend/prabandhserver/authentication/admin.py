@@ -24,3 +24,4 @@ class FacultyAdmin(admin.ModelAdmin):
 
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(EventsDetails)
+admin.site.register(School)

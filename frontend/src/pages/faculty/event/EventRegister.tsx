@@ -15,6 +15,7 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 import { set } from 'date-fns';
+import { usePushNotify } from '@/hooks/usePushNotify';
 
 interface EventType {
   id: number;
@@ -104,6 +105,12 @@ const EventRegister: React.FC = () => {
     { value: 'Madhulmaye Hall', label: 'Madhulmaye Hall' },
     { value: 'LDV', label: 'LDV' },
   ];
+
+  const { requestPermission, pushNotify } = usePushNotify();
+
+  useEffect(() => {
+    requestPermission();
+  }, [requestPermission]);
 
   useEffect(() => {
     axios.get('/api/facultyservices/event-types/')
@@ -229,6 +236,9 @@ const EventRegister: React.FC = () => {
       };
       await eventService.registerEvent(formToSend);
       toast({ title: 'Success', description: 'Event registered and sent for approval.' });
+      pushNotify("New Event Submitted", {
+        body: `Your event \"${form.event_name}\" has been submitted for approval.`,
+      });
       setForm(initialState);
     } catch {
       toast({ title: 'Error', description: 'Failed to register event.', variant: 'destructive' });

@@ -102,7 +102,7 @@ const FacultyRegistration = () => {
     { id: 'academic', label: 'Academic', types: [ { value: 'faculty', label: 'Faculty' }, { value: 'hod', label: 'HOD' } ] },
     { id: 'administration', label: 'Administration', types: [ { value: 'dean', label: 'Dean' }, { value: 'exam', label: 'Exam Cell' }, { value: 'account', label: 'Accounts' } ] },
     { id: 'support', label: 'Support', types: [ { value: 'deputy_registrar', label: 'Deputy Registrar' }, { value: 'hostel', label: 'Hostel' }, { value: 'sports', label: 'Sports' }, { value: 'library', label: 'Library' } ] },
-    { id: 'other', label: 'Other', types: [ { value: 'hr', label: 'HR' }, { value: 'vc', label: 'VC' }, { value: 'pro_vc', label: 'PRO VC' } ] }
+    { id: 'other', label: 'Other', types: [ { value: 'hr', label: 'HR' }, { value: 'vc', label: 'VC' }, { value: 'vc_office', label: 'VC office' }, { value: 'pro_vc', label: 'PRO VC' } ] }
   ];
   const universityDepartments = [
     { id: 'engineering', label: 'Engineering', departments: [ { value: 'btech_cse', label: 'B.Tech (Computer Science)' }, { value: 'btech_ece', label: 'B.Tech (Electronics & Communication)' }, { value: 'btech_civil', label: 'B.Tech (Civil Engineering)' }, { value: 'btech_mechanical', label: 'B.Tech (Mechanical Engineering)' }, { value: 'btech_electrical', label: 'B.Tech (Electrical Engineering)' }, ]},

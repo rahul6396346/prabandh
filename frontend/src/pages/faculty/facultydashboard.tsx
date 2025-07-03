@@ -34,6 +34,7 @@ import {
   CalendarClock,
   Building,
 } from "lucide-react";
+import axiosInstance from '@/lib/axios';
 
 // Progress bar component
 const ProgressBar = ({ value, max, label, color = "bg-[#8B0000]" }) => (
@@ -84,6 +85,8 @@ const FacultyDashboard = () => {
     since: "",
   });
   
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  
   // Load the logged-in user's details
   useEffect(() => {
     if (!facultyInfo.isLoading) {
@@ -92,10 +95,12 @@ const FacultyDashboard = () => {
         id: facultyInfo.id,
         position: facultyInfo.designation,
         department: facultyInfo.department,
-        since: "" // We don't have this info yet
+        since: ""
       });
+      if ((facultyInfo as any).profile_image) {
+        setProfileImage((facultyInfo as any).profile_image);
+      }
     } else {
-      // Fallback to the old method if hook data is still loading
       const currentUser = authService.getCurrentUser();
       if (currentUser) {
         setFacultyDetails({
@@ -103,8 +108,11 @@ const FacultyDashboard = () => {
           id: currentUser.registration_no,
           position: currentUser.designation || "Faculty",
           department: currentUser.department || "",
-          since: "" // We don't have this info in the Faculty interface
+          since: ""
         });
+        if ((currentUser as any).profile_image) {
+          setProfileImage((currentUser as any).profile_image);
+        }
       }
     }
   }, [facultyInfo]);
@@ -149,8 +157,12 @@ const FacultyDashboard = () => {
       </CardHeader>
       <CardContent className="pt-6">
         <div className="flex justify-center">
-          <div className="h-24 w-24 rounded-full bg-gradient-to-br from-[#8B0000] to-[#AA0000] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-            {facultyDetails.name ? facultyDetails.name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 3) : ''}
+          <div className="h-24 w-24 rounded-full bg-gradient-to-br from-[#8B0000] to-[#AA0000] flex items-center justify-center text-white text-2xl font-bold shadow-lg overflow-hidden">
+            {profileImage ? (
+              <img src={profileImage.startsWith('data:') ? profileImage : profileImage.startsWith('http') ? profileImage : `/media/${profileImage}`} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              facultyDetails.name ? facultyDetails.name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 3) : ''
+            )}
           </div>
         </div>
         <div className="mt-6 space-y-3">

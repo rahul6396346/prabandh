@@ -381,9 +381,14 @@ export default function FacultyProfile() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Faculty Profile</h1>
-        <Button className="bg-[#8B0000] hover:bg-[#AA0000] text-white">
-          Edit Profile
-        </Button>
+        <div className="flex gap-2">
+          <Button className="bg-[#8B0000] hover:bg-[#AA0000] text-white">
+            Edit Profile
+          </Button>
+          <Button className="bg-[#8B0000] hover:bg-[#AA0000] text-white">
+            Save
+          </Button>
+        </div>
       </div>
 
       {/* Tab Navigation */}

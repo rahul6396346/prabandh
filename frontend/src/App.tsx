@@ -38,6 +38,7 @@ import { DeputyRegistrarDashboard, DeputyRegistrarSidebar, DeputyRegistrarLayout
 import { VcOfficeDashboard, VcOfficeLayout, VCEventsList, VCEventDetail } from './pages/vc-office/index';
 import FacultyRegistration from './pages/hr/faculty-registration';
 import RequireHR from './components/RequireHR';
+import DepartmentsPage from './pages/deputy_registrar/departments/index';
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => (
             }>
               <Route path="dashboard" element={<DeputyRegistrarDashboard />} />
               <Route path="schools" element={<SchoolsPage />} />
+              <Route path="departments" element={<DepartmentsPage />} />
               <Route path="programmes" element={<ProgrammesPage />} />
               <Route path="subjects" element={<SubjectPage />} />
               <Route path="scheme/subjects" element={<SubjectScheme />} />

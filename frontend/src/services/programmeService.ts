@@ -43,9 +43,15 @@ export interface Programme {
   branch: string;
   semester: string;
   school: number;
+  department: number;
   school_details?: {
     id: number;
     name: string;
+  };
+  department_details?: {
+    id: number;
+    name: string;
+    school: number;
   };
   type: string;
   system_type: string;

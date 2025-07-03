@@ -1,14 +1,28 @@
 from rest_framework import serializers
-from deputy_registrar.models import School,  Programme
+from deputy_registrar.models import School,  Programme, Department
 from .models import Subject, Scheme
+
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = ['id', 'name']
         read_only_fields = ['id']
 
+class DepartmentSerializer(serializers.ModelSerializer):
+    school_name = serializers.CharField(source='school.name', read_only=True)
+    class Meta:
+        model = Department
+        fields = ['id', 'name', 'school', 'school_name']
+        read_only_fields = ['id', 'school_name']
+
+class DepartmentMiniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = ['id', 'name', 'school']
+
 class ProgrammeSerializer(serializers.ModelSerializer):
     school_details = SchoolSerializer(source='school', read_only=True)
+    department_details = DepartmentMiniSerializer(source='department', read_only=True)
     
     class Meta:
         model = Programme
@@ -20,6 +34,8 @@ class ProgrammeSerializer(serializers.ModelSerializer):
             'semester', 
             'school',
             'school_details',
+            'department',
+            'department_details',
             'type', 
             'system_type', 
             'education_level', 
@@ -29,7 +45,7 @@ class ProgrammeSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'school_details', 'department_details']
 
     def validate(self, data):
         # Add additional validation if needed

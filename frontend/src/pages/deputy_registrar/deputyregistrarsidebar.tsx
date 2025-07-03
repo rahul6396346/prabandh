@@ -20,6 +20,8 @@ import {
   Lock,
   Building,
   PanelRight,
+  SchoolIcon,
+  Building2,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -44,7 +46,8 @@ const navItems: NavItem[] = [
     path: "#", 
     hasDropdown: true,
     dropdownItems: [
-      { name: "Add school", path: "/deputy_registrar/schools" },
+      { name: "School Registration", path: "/deputy_registrar/schools" },
+      { name: "Department Registration", path: "/deputy_registrar/departments" },
       { name: "Add program", path: "/deputy_registrar/programmes" },
       { name: "Add subject", path: "/deputy_registrar/subjects" },
       { name: "Subject With Schemes", path: "/deputy_registrar/scheme/subjects" },

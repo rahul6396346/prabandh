@@ -2,9 +2,9 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Q
-from .serializers import ProgrammeSerializer, SchoolSerializer,SchemeSerializer, SubjectWithSchemeSerializer, SubjectSerializer
+from .serializers import ProgrammeSerializer, SchoolSerializer,SchemeSerializer, SubjectWithSchemeSerializer, SubjectSerializer, DepartmentSerializer
 from rest_framework.decorators import action
-from .models import Programme, Subject, Scheme,School
+from .models import Programme, Subject, Scheme,School, Department
 
 
 class IsDRUser(permissions.BasePermission):
@@ -95,6 +95,22 @@ class SchoolViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.IsAuthenticated()]
+        return [IsDRUser()]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Programme, programmeService, COURSE_TYPE, SYSTEM_TYPE, EDUCATION_LEVEL, REGULATORY_BODIES, NEP_OPTIONS, NAAC_OPTIONS } from '../../../services/programmeService';
 import { School, schoolService } from '../../../services/schoolService';
+import { Department, departmentService } from '../../../services/departmentService';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -11,7 +12,7 @@ import { GraduationCap, Search, Trash2, RefreshCw } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { validateFormData } from '@/lib/form-validation';
 
-type ProgrammeFormData = Omit<Programme, 'id' | 'school_details'>;
+type ProgrammeFormData = Omit<Programme, 'id' | 'school_details' | 'department_details'>;
 
 const initialFormData: ProgrammeFormData = {
   academic_year: '',
@@ -19,6 +20,7 @@ const initialFormData: ProgrammeFormData = {
   branch: '',
   semester: '',
   school: 0,
+  department: 0,
   type: 'SemesterWise',
   system_type: 'GradingWise',
   education_level: 'UG',
@@ -30,6 +32,7 @@ const initialFormData: ProgrammeFormData = {
 export default function ProgrammesPage() {
   const [programmes, setProgrammes] = useState<Programme[]>([]);
   const [schools, setSchools] = useState<School[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -71,6 +74,20 @@ export default function ProgrammesPage() {
     return () => clearInterval(interval);
   }, [loadData]);
 
+  useEffect(() => {
+    // Fetch departments for the selected school
+    if (formData.school) {
+      departmentService.getAllDepartments().then(depts => {
+        setDepartments(depts.filter(d => d.school === formData.school));
+      });
+      // Reset department selection when school changes
+      setFormData(prev => ({ ...prev, department: 0 }));
+    } else {
+      setDepartments([]);
+      setFormData(prev => ({ ...prev, department: 0 }));
+    }
+  }, [formData.school]);
+
   const resetForm = () => {
     setFormData(initialFormData);
   };
@@ -78,7 +95,7 @@ export default function ProgrammesPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const requiredFields = ['academic_year', 'course', 'branch', 'semester', 'school'];
+    const requiredFields = ['academic_year', 'course', 'branch', 'semester', 'school', 'department'];
     const validationErrors = validateFormData(formData, requiredFields);
 
     if (validationErrors.length > 0) {
@@ -195,6 +212,21 @@ export default function ProgrammesPage() {
                   <SelectItem key={school.id} value={school.id?.toString() || ''}>
                     {school.name}
                   </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select
+              value={formData.department ? formData.department.toString() : ''}
+              onValueChange={value => setFormData(prev => ({ ...prev, department: parseInt(value) }))}
+              disabled={!formData.school}
+              required
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Department *" />
+              </SelectTrigger>
+              <SelectContent>
+                {departments.map(dept => (
+                  <SelectItem key={dept.id} value={dept.id.toString()}>{dept.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -394,6 +426,7 @@ export default function ProgrammesPage() {
                   <TableHead>Academic Year</TableHead>
                   <TableHead>Semester</TableHead>
                   <TableHead>School</TableHead>
+                  <TableHead>Department</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Education Level</TableHead>
                   <TableHead className="w-[100px] text-right">Actions</TableHead>
@@ -418,6 +451,7 @@ export default function ProgrammesPage() {
                       <TableCell>{programme.academic_year}</TableCell>
                       <TableCell>{programme.semester}</TableCell>
                       <TableCell>{programme.school_details?.name}</TableCell>
+                      <TableCell>{programme.department_details?.name || ''}</TableCell>
                       <TableCell>{programme.type}</TableCell>
                       <TableCell>{programme.education_level}</TableCell>
                       <TableCell className="text-right">

@@ -45,12 +45,20 @@ class School(models.Model):
     def __str__(self):
         return self.name
 
+class Department(models.Model):
+    name = models.CharField(max_length=100)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='departments')
+
+    def __str__(self):
+        return f"{self.name} ({self.school.name})"
+
 class Programme(models.Model):
     academic_year = models.CharField(max_length=20, null=True, blank=True)
     course = models.CharField(max_length=70, null=True, blank=True)
     branch = models.CharField(max_length=70, null=True, blank=True)
     semester = models.CharField(max_length=20, null=True, blank=True)
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
     type = models.CharField(max_length=20, choices=COURSE_TYPE, default='SemesterWise')
     system_type = models.CharField(max_length=20, choices=SYSTEM_TYPE, default='GradingWise')
     education_level = models.CharField(max_length=20, choices=EDUCATION_LEVEL, default='UG')

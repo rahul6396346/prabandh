@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import RegisterView, LoginView, LogoutView, UserView, CheckAuthView, CSRFTokenView, UsersByEmptypeView, EmptypesView, unique_departments, faculty_by_department
+from .views import RegisterView, LoginView, LogoutView, UserView, CheckAuthView, CSRFTokenView, UsersByEmptypeView, EmptypesView, unique_departments, faculty_by_department, ProfileImageUploadView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('departments/', unique_departments, name='unique-departments'),
     path('faculty-by-department/', faculty_by_department, name='faculty-by-department'),
+    path('profile-image/', ProfileImageUploadView.as_view(), name='profile-image-upload'),
 ]

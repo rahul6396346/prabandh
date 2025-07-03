@@ -9,6 +9,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q, Value
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .serializers import FacultySerializer, RegisterSerializer, LoginSerializer
 from .models import Faculty
@@ -160,3 +161,19 @@ def faculty_by_department(request):
         return Response({'error': 'Department parameter is required.'}, status=400)
     faculty = Faculty.objects.filter(department=department).values('id', 'name', 'registration_no', 'designation', 'primary_email')
     return Response({'faculty': list(faculty)})
+
+
+class ProfileImageUploadView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def patch(self, request, *args, **kwargs):
+        faculty = request.user
+        image = request.FILES.get('profile_image')
+        if not image:
+            return Response({'error': 'No image provided.'}, status=400)
+        if image.size > 5 * 1024 * 1024:
+            return Response({'error': 'Image size exceeds 5MB.'}, status=400)
+        faculty.profile_image = image
+        faculty.save()
+        return Response(FacultySerializer(faculty, context={'request': request}).data)

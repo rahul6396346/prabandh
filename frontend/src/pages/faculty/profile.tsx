@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import authService from "@/services/authService";
 import { useFacultyInfo } from "@/hooks/useFacultyInfo";
+import axiosInstance from '@/lib/axios';
 
 export default function FacultyProfile() {
   const facultyInfo = useFacultyInfo();
@@ -49,6 +50,10 @@ export default function FacultyProfile() {
     specialization: "",
     researchInterests: ""
   });
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Load faculty details from auth service and faculty info hook
@@ -77,6 +82,14 @@ export default function FacultyProfile() {
     }
   }, [facultyInfo]);
 
+  // Load profile image from user info if available
+  useEffect(() => {
+    const currentUser = authService.getCurrentUser();
+    if (currentUser && (currentUser as any).profile_image) {
+      setProfileImage((currentUser as any).profile_image);
+    }
+  }, [facultyInfo]);
+
   const getInitials = (name: string) => {
     return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
   };
@@ -87,6 +100,41 @@ export default function FacultyProfile() {
     { id: "documents", label: "Documents", active: activeTab === "documents" }
   ];
 
+  const handleUploadClick = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size exceeds 5MB.');
+      return;
+    }
+    setError(null);
+    // Preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfileImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+    // Upload
+    const formData = new FormData();
+    formData.append('profile_image', file);
+    setUploading(true);
+    try {
+      const res = await axiosInstance.patch('/api/auth/profile-image/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setProfileImage(res.data.profile_image);
+      setError(null);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Upload failed.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const renderPersonalInformation = () => (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Profile Picture Section */}
@@ -96,12 +144,25 @@ export default function FacultyProfile() {
             <CardTitle className="text-lg font-semibold text-gray-800">Profile Picture</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#8B0000] to-[#AA0000] flex items-center justify-center text-white text-3xl font-bold shadow-lg mb-4">
-              {getInitials(facultyDetails.name)}
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#8B0000] to-[#AA0000] flex items-center justify-center text-white text-3xl font-bold shadow-lg mb-4 overflow-hidden">
+              {profileImage ? (
+                <img src={profileImage.startsWith('data:') ? profileImage : profileImage.startsWith('http') ? profileImage : `/media/${profileImage}`} alt="Profile" className="w-full h-full object-cover" />
+              ) : (
+                getInitials(facultyDetails.name)
+              )}
             </div>
-            <Button variant="outline" className="text-[#8B0000] border-[#8B0000] hover:bg-[#8B0000]/10">
-              Upload Photo
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+              disabled={uploading}
+            />
+            <Button variant="outline" className="text-[#8B0000] border-[#8B0000] hover:bg-[#8B0000]/10" onClick={handleUploadClick} disabled={uploading}>
+              {uploading ? 'Uploading...' : 'Upload Photo'}
             </Button>
+            {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
           </CardContent>
         </Card>
       </div>

@@ -50,6 +50,7 @@ class Faculty(AbstractBaseUser, PermissionsMixin):
     qualification = models.CharField(max_length=70, blank=True)
     experience = models.CharField(max_length=70, blank=True)
     marital_status = models.CharField(max_length=10, choices=(('Yes', 'Yes'), ('No', 'No')), blank=True)
+    profile_image = models.ImageField(upload_to='faculty/profile_images/', max_length=255, blank=True, null=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

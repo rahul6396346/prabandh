@@ -5,6 +5,7 @@ from deputy_registrar.models import School
 
 
 class FacultySerializer(serializers.ModelSerializer):
+    profile_image = serializers.ImageField(required=False, allow_null=True)
     class Meta:
         model = Faculty
         fields = [
@@ -30,6 +31,7 @@ class FacultySerializer(serializers.ModelSerializer):
             'is_staff',
             'is_active',
             'date_joined',
+            'profile_image',
         ]
         read_only_fields = ['id']
 

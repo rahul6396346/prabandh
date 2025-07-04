@@ -10,9 +10,10 @@ from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q, Value
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.generics import ListAPIView
 
-from .serializers import FacultySerializer, RegisterSerializer, LoginSerializer
-from .models import Faculty
+from .serializers import FacultySerializer, RegisterSerializer, LoginSerializer, FacultyDocumentSerializer
+from .models import Faculty, FacultyDocument
 
 class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
@@ -177,3 +178,34 @@ class ProfileImageUploadView(APIView):
         faculty.profile_image = image
         faculty.save()
         return Response(FacultySerializer(faculty, context={'request': request}).data)
+
+
+class FacultyDocumentUploadView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, id, *args, **kwargs):
+        faculty = Faculty.objects.get(id=id)
+        document_type = request.data.get('document_type')
+        file = request.FILES.get('file')
+        if not document_type or not file:
+            return Response({'error': 'document_type and file are required.'}, status=400)
+        if file.size > 5 * 1024 * 1024:
+            return Response({'error': 'File size exceeds 5MB.'}, status=400)
+        # Only allow certain file types
+        allowed_types = ['application/pdf', 'image/jpeg', 'image/png']
+        if file.content_type not in allowed_types:
+            return Response({'error': 'Invalid file type.'}, status=400)
+        # Replace existing document of same type for this faculty
+        FacultyDocument.objects.filter(faculty=faculty, document_type=document_type).delete()
+        doc = FacultyDocument.objects.create(faculty=faculty, document_type=document_type, file=file)
+        return Response(FacultyDocumentSerializer(doc, context={'request': request}).data, status=201)
+
+
+class FacultyDocumentListView(ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = FacultyDocumentSerializer
+
+    def get_queryset(self):
+        faculty_id = self.kwargs['id']
+        return FacultyDocument.objects.filter(faculty_id=faculty_id)

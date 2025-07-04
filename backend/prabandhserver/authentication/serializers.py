@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Faculty
+from .models import Faculty, FacultyDocument
 from deputy_registrar.models import School
 
 
@@ -32,8 +32,35 @@ class FacultySerializer(serializers.ModelSerializer):
             'is_active',
             'date_joined',
             'profile_image',
+            'blood_group',
+            'aadhar_number',
+            'mother_name',
+            'specialization',
+            'research_interests',
         ]
         read_only_fields = ['id']
+        extra_kwargs = {
+            'department': {'required': False, 'allow_blank': True},
+            'school': {'required': False, 'allow_null': True},
+            'father_name': {'required': False, 'allow_blank': True},
+            'gender': {'required': False, 'allow_blank': True},
+            'category': {'required': False, 'allow_blank': True},
+            'dob': {'required': False, 'allow_blank': True},
+            'designation': {'required': False, 'allow_blank': True},
+            'contact_no': {'required': False, 'allow_blank': True},
+            'official_email': {'required': False, 'allow_blank': True},
+            'address': {'required': False, 'allow_blank': True},
+            'joining_date': {'required': False, 'allow_blank': True},
+            'qualification': {'required': False, 'allow_blank': True},
+            'experience': {'required': False, 'allow_blank': True},
+            'marital_status': {'required': False, 'allow_blank': True},
+            'specialization': {'required': False, 'allow_blank': True},
+            'research_interests': {'required': False, 'allow_blank': True},
+            'mother_name': {'required': False, 'allow_blank': True},
+            'aadhar_number': {'required': False, 'allow_blank': True},
+            'blood_group': {'required': False, 'allow_blank': True},
+            'profile_image': {'required': False, 'allow_null': True},
+        }
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -61,6 +88,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             'qualification': {'required': False, 'allow_blank': True},
             'experience': {'required': False, 'allow_blank': True},
             'marital_status': {'required': False, 'allow_blank': True},
+            'specialization': {'required': False, 'allow_blank': True},
+            'research_interests': {'required': False, 'allow_blank': True},
+            'mother_name': {'required': False, 'allow_blank': True},
+            'aadhar_number': {'required': False, 'allow_blank': True},
+            'blood_group': {'required': False, 'allow_blank': True},
+            'profile_image': {'required': False, 'allow_null': True},
+            'documents': {'required': False, 'allow_null': True},
         }
 
     def create(self, validated_data):
@@ -88,3 +122,10 @@ class LoginSerializer(serializers.Serializer):
 
         data['user'] = user
         return data
+
+
+class FacultyDocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FacultyDocument
+        fields = ['id', 'faculty', 'document_type', 'file', 'uploaded_at']
+        read_only_fields = ['id', 'faculty', 'uploaded_at']

@@ -11,6 +11,7 @@ from django.db.models import Q, Value
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.generics import ListAPIView
+from deputy_registrar.models import School
 
 from .serializers import FacultySerializer, RegisterSerializer, LoginSerializer, FacultyDocumentSerializer
 from .models import Faculty, FacultyDocument
@@ -209,3 +210,52 @@ class FacultyDocumentListView(ListAPIView):
     def get_queryset(self):
         faculty_id = self.kwargs['id']
         return FacultyDocument.objects.filter(faculty_id=faculty_id)
+
+
+class HRFacultyListView(APIView):
+    permission_classes = [IsHRUser]
+
+    def get(self, request):
+        faculty_qs = Faculty.objects.all().select_related('school')
+        data = []
+        for faculty in faculty_qs:
+            data.append({
+                "id": faculty.id,
+                "full_name": faculty.name,
+                "email": faculty.primary_email,
+                "employee_type": faculty.emptype,
+                "school": faculty.school.name if faculty.school else "",
+                "department": faculty.department or ""
+            })
+        return Response(data)
+
+
+class HRFacultyDetailView(APIView):
+    permission_classes = [IsHRUser]
+
+    def get(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+        except Faculty.DoesNotExist:
+            return Response({'error': 'Faculty not found.'}, status=404)
+        return Response(FacultySerializer(faculty, context={'request': request}).data)
+
+    def patch(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+        except Faculty.DoesNotExist:
+            return Response({'error': 'Faculty not found.'}, status=404)
+        # Only allow updating is_staff
+        is_staff = request.data.get('is_staff', None)
+        if is_staff is not None:
+            faculty.is_staff = bool(is_staff)
+            faculty.save()
+        return Response(FacultySerializer(faculty, context={'request': request}).data)
+
+class HRFacultyDocumentsView(APIView):
+    permission_classes = [IsHRUser]
+
+    def get(self, request, id):
+        docs = FacultyDocument.objects.filter(faculty_id=id)
+        serializer = FacultyDocumentSerializer(docs, many=True, context={'request': request})
+        return Response(serializer.data)

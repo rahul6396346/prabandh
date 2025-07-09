@@ -73,7 +73,8 @@ export default function FacultyProfile() {
     specialization: "",
     researchInterests: "",
     category: "General",
-    emptype: "Faculty"
+    emptype: "Faculty",
+    is_staff: false
   });
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -112,6 +113,7 @@ export default function FacultyProfile() {
         researchInterests: data.research_interests || "",
         category: data.category || "General",
         emptype: data.emptype || "Faculty",
+        is_staff: data.is_staff || false
       });
       setFacultyId(data.id);
       if (data.profile_image) {
@@ -323,7 +325,17 @@ export default function FacultyProfile() {
                   {isEditing ? (
                     <Input name="name" value={facultyDetails.name} onChange={handleChange} />
                   ) : (
-                    <span className="font-medium text-gray-900">{facultyDetails.name}</span>
+                    <span className="font-medium text-gray-900 flex items-center gap-1">
+                      {facultyDetails.name}
+                      {facultyDetails.is_staff && (
+                        <span title="Verified" className="inline-block align-middle">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="12" fill="#0095F6"/>
+                            <path d="M17 8.5L10.75 15L7 11.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </span>
+                      )}
+                    </span>
                   )}
                 </div>
               </div>

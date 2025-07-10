@@ -225,7 +225,8 @@ class HRFacultyListView(APIView):
                 "email": faculty.primary_email,
                 "employee_type": faculty.emptype,
                 "school": faculty.school.name if faculty.school else "",
-                "department": faculty.department or ""
+                "department": faculty.department or "",
+                "is_staff": faculty.is_staff,  # Add HR approval status
             })
         return Response(data)
 
@@ -259,3 +260,20 @@ class HRFacultyDocumentsView(APIView):
         docs = FacultyDocument.objects.filter(faculty_id=id)
         serializer = FacultyDocumentSerializer(docs, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+class FacultyDirectoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        faculty_qs = Faculty.objects.all().select_related('school')
+        data = []
+        for faculty in faculty_qs:
+            data.append({
+                "id": faculty.id,
+                "full_name": faculty.name,
+                "email": faculty.primary_email,
+                "department": faculty.department or "",
+                "is_staff": faculty.is_staff,
+            })
+        return Response(data)

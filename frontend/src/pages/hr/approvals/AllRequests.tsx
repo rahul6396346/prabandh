@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import VerifiedBadge from '@/components/ui/verified-badge';
 
 interface LeaveApplication {
   id: number;
@@ -17,6 +18,8 @@ interface LeaveApplication {
     name: string;
     department: string;
     registration_no: string;
+    email?: string; // Added email for verification badge
+    is_staff?: boolean; // Added is_staff for verification badge
   };
   leave_type: string;
   from_date: string;

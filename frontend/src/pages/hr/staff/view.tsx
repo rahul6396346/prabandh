@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import hrRoutes from "@/routes/hr-routes";
+import VerifiedBadge from '@/components/ui/verified-badge';
 
 
 const ViewStaffPage: React.FC = () => {
@@ -68,7 +69,12 @@ const ViewStaffPage: React.FC = () => {
               filteredStaff.map(item => (
                 <TableRow key={item.id}>
                   <TableCell>{item.full_name}</TableCell>
-                  <TableCell>{item.email}</TableCell>
+                  <TableCell>
+                    <span className="flex items-center gap-1">
+                      {item.email}
+                      {item.is_staff && <VerifiedBadge />}
+                    </span>
+                  </TableCell>
                   <TableCell>{item.employee_type}</TableCell>
                   <TableCell>{item.school}</TableCell>
                   <TableCell>{item.department}</TableCell>

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import staffService from '@/services/staffService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import VerifiedBadge from '@/components/ui/verified-badge';
 
 const StaffDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -60,9 +61,6 @@ const StaffDetailsPage: React.FC = () => {
         <CardHeader>
           <CardTitle className="text-xl font-bold text-[#8B0000] flex items-center gap-2">
             Faculty Details
-            {details.is_staff === true && (
-              <span title="Verified" className="text-green-600 text-lg">✔️</span>
-            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -70,7 +68,16 @@ const StaffDetailsPage: React.FC = () => {
             {Object.entries(details).map(([key, value]) => (
               <div key={key}>
                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{key.replace(/_/g, ' ')}</div>
-                <div className="font-medium text-gray-900 break-all">{String(value) || '-'}</div>
+                <div className="font-medium text-gray-900 break-all flex items-center gap-1">
+                  {key === 'email' ? (
+                    <>
+                      {String(value) || '-'}
+                      {details.is_staff && <VerifiedBadge />}
+                    </>
+                  ) : (
+                    String(value) || '-'
+                  )}
+                </div>
               </div>
             ))}
           </div>

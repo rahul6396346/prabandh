@@ -8,6 +8,7 @@ export interface StaffListItem {
   employee_type: string;
   school: string;
   department: string;
+  is_staff?: boolean; // Add is_staff for HR approval
 }
 
 const API_URL = 'http://localhost:8000/api/auth/hr/faculty-list';
@@ -33,6 +34,10 @@ const staffService = {
   approveStaff: async (id: number) => {
     // PATCH request to set is_staff to true
     const response = await axiosInstance.patch(`${API_DETAIL_URL}/${id}/`, { is_staff: true });
+    return response.data;
+  },
+  getAllFacultyWithEmailAndStatus: async () => {
+    const response = await axiosInstance.get('http://localhost:8000/api/auth/faculty-directory/');
     return response.data;
   },
 };

@@ -29,6 +29,7 @@ import axiosInstance from '@/lib/axios';
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import VerifiedBadge from '@/components/ui/verified-badge';
 
 // Helper to convert DD/MM/YYYY or other formats to YYYY-MM-DD
 function toInputDateFormat(dateStr: string) {
@@ -327,14 +328,6 @@ export default function FacultyProfile() {
                   ) : (
                     <span className="font-medium text-gray-900 flex items-center gap-1">
                       {facultyDetails.name}
-                      {facultyDetails.is_staff && (
-                        <span title="Verified" className="inline-block align-middle">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="12" fill="#0095F6"/>
-                            <path d="M17 8.5L10.75 15L7 11.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </span>
-                      )}
                     </span>
                   )}
                 </div>
@@ -359,7 +352,10 @@ export default function FacultyProfile() {
                   {isEditing ? (
                     <Input name="email" value={facultyDetails.email} onChange={handleChange} />
                   ) : (
-                    <span className="font-medium text-blue-600">{facultyDetails.email}</span>
+                    <span className="font-medium text-blue-600 flex items-center gap-1">
+                      {facultyDetails.email}
+                      {facultyDetails.is_staff && <VerifiedBadge />}
+                    </span>
                   )}
                 </div>
               </div>

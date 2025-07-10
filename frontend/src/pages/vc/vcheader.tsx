@@ -45,7 +45,7 @@ const VCHeader = ({ title = "ITM University, Gwalior" }: HeaderProps) => {
   }, []);
 
   return (
-    <header className="bg-[#8B0000] text-white shadow-sm p-4 flex justify-between items-center relative">
+    <header className="sticky top-0 z-50 bg-[#8B0000] text-white shadow-sm p-4 flex justify-between items-center relative">
       <div className="flex items-center gap-3">
         <img 
           src="/images/logo/Itm university white logo transparent.png" 

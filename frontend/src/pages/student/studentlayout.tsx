@@ -13,14 +13,16 @@ const StudentLayout = ({ children, title }: LayoutProps) => {
   return (
     <div className="min-h-screen flex">
       <StudentSidebar isCollapsed={isSidebarCollapsed} setIsCollapsed={setIsSidebarCollapsed} />
-      <div className="flex-1 overflow-auto flex flex-col">
+      <div className="flex-1 flex flex-col">
         <StudentHeader title={title} />
-        <main className="flex-1">
-          {children}
-        </main>
-        <footer className="p-4 border-t text-center text-sm text-muted-foreground">
-          2025 All rights reserved by ITM University, Gwalior | Designed & Developed by Software Development Team
-        </footer>
+        <div className="flex-1 overflow-auto flex flex-col">
+          <main className="flex-1">
+            {children}
+          </main>
+          <footer className="p-4 border-t text-center text-sm text-muted-foreground">
+            2025 All rights reserved by ITM University, Gwalior | Designed & Developed by Software Development Team
+          </footer>
+        </div>
       </div>
     </div>
   );

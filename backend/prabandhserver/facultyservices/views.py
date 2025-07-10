@@ -16,6 +16,7 @@ from .utils import send_event_notification_email
 from authentication.models import Faculty
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from authentication.views import HRFacultyListView
 
 # Create your views here.
 

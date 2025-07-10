@@ -218,7 +218,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.Faculty'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8084',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:8084',
+]
 CORS_ALLOW_CREDENTIALS = True
 
 # Session settings - Keep users logged in until manual logout
@@ -230,7 +236,12 @@ SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8084']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8084',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:8084',
+]
 CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_USE_SESSIONS = False
 CSRF_COOKIE_HTTPONLY = False  # False to allow JavaScript access to the cookie

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils import timezone
 from deputy_registrar.models import School
+from django.conf import settings
 
 class FacultyManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -50,6 +51,12 @@ class Faculty(AbstractBaseUser, PermissionsMixin):
     qualification = models.CharField(max_length=70, blank=True)
     experience = models.CharField(max_length=70, blank=True)
     marital_status = models.CharField(max_length=10, choices=(('Yes', 'Yes'), ('No', 'No')), blank=True)
+    profile_image = models.ImageField(upload_to='faculty/profile_images/', max_length=255, blank=True, null=True)
+    blood_group = models.CharField(max_length=10, choices=(('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('AB+', 'AB+'), ('AB-', 'AB-'), ('O+', 'O+'), ('O-', 'O-')), blank=True)
+    aadhar_number = models.CharField(max_length=12, blank=True)
+    mother_name = models.CharField(max_length=70, blank=True)
+    specialization = models.CharField(max_length=70, blank=True)
+    research_interests = models.TextField(blank=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -71,3 +78,20 @@ class Faculty(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.name} ({self.primary_email})"
+
+class FacultyDocument(models.Model):
+    DOCUMENT_TYPES = [
+        ('Aadhar Card', 'Aadhar Card'),
+        ('PAN Card', 'PAN Card'),
+        ('Passport', 'Passport'),
+        ('Educational Certificates', 'Educational Certificates'),
+        ('Experience Certificates', 'Experience Certificates'),
+        ('Research Publications', 'Research Publications'),
+    ]
+    faculty = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='documents')
+    document_type = models.CharField(max_length=50, choices=DOCUMENT_TYPES)
+    file = models.FileField(upload_to='faculty/documents/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.faculty.name} - {self.document_type}"

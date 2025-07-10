@@ -109,32 +109,12 @@ const authInterceptor = AuthInterceptor.getInstance();
 authInterceptor.setupInterceptors(axiosInstance);
 
 const authService = {
-  register: async (data: RegisterRequest): Promise<AuthResponse> => {
+  register: async (data: RegisterRequest): Promise<any> => {
     await fetchCSRFToken();
     const response = await axios.post(`${API_URL}register/`, data, {
       headers: { 'X-CSRFToken': getCSRFToken() || '' }
     });
-
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-    }
-    if (response.data.access) {
-      localStorage.setItem('accessToken', response.data.access);
-    }
-    if (response.data.refresh) {
-      localStorage.setItem('refreshToken', response.data.refresh);
-    }
-
-    localStorage.setItem('user', JSON.stringify(response.data.user));
-    localStorage.setItem('userId', response.data.user.registration_no);
-    localStorage.setItem('userType', data.emptype);
-    localStorage.setItem('isLoggedIn', 'true');
-    
-    // Store department information
-    if (data.department) {
-      localStorage.setItem('userDepartment', data.department);
-    }
-
+    // Do NOT store any tokens or user info in localStorage after registration
     return response.data;
   },
 

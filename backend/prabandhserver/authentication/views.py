@@ -9,9 +9,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q, Value
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.generics import ListAPIView
+from deputy_registrar.models import School
 
-from .serializers import FacultySerializer, RegisterSerializer, LoginSerializer
-from .models import Faculty
+from .serializers import FacultySerializer, RegisterSerializer, LoginSerializer, FacultyDocumentSerializer
+from .models import Faculty, FacultyDocument
 
 class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
@@ -160,3 +163,117 @@ def faculty_by_department(request):
         return Response({'error': 'Department parameter is required.'}, status=400)
     faculty = Faculty.objects.filter(department=department).values('id', 'name', 'registration_no', 'designation', 'primary_email')
     return Response({'faculty': list(faculty)})
+
+
+class ProfileImageUploadView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def patch(self, request, *args, **kwargs):
+        faculty = request.user
+        image = request.FILES.get('profile_image')
+        if not image:
+            return Response({'error': 'No image provided.'}, status=400)
+        if image.size > 5 * 1024 * 1024:
+            return Response({'error': 'Image size exceeds 5MB.'}, status=400)
+        faculty.profile_image = image
+        faculty.save()
+        return Response(FacultySerializer(faculty, context={'request': request}).data)
+
+
+class FacultyDocumentUploadView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, id, *args, **kwargs):
+        faculty = Faculty.objects.get(id=id)
+        document_type = request.data.get('document_type')
+        file = request.FILES.get('file')
+        if not document_type or not file:
+            return Response({'error': 'document_type and file are required.'}, status=400)
+        if file.size > 5 * 1024 * 1024:
+            return Response({'error': 'File size exceeds 5MB.'}, status=400)
+        # Only allow certain file types
+        allowed_types = ['application/pdf', 'image/jpeg', 'image/png']
+        if file.content_type not in allowed_types:
+            return Response({'error': 'Invalid file type.'}, status=400)
+        # Replace existing document of same type for this faculty
+        FacultyDocument.objects.filter(faculty=faculty, document_type=document_type).delete()
+        doc = FacultyDocument.objects.create(faculty=faculty, document_type=document_type, file=file)
+        return Response(FacultyDocumentSerializer(doc, context={'request': request}).data, status=201)
+
+
+class FacultyDocumentListView(ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = FacultyDocumentSerializer
+
+    def get_queryset(self):
+        faculty_id = self.kwargs['id']
+        return FacultyDocument.objects.filter(faculty_id=faculty_id)
+
+
+class HRFacultyListView(APIView):
+    permission_classes = [IsHRUser]
+
+    def get(self, request):
+        faculty_qs = Faculty.objects.all().select_related('school')
+        data = []
+        for faculty in faculty_qs:
+            data.append({
+                "id": faculty.id,
+                "full_name": faculty.name,
+                "email": faculty.primary_email,
+                "employee_type": faculty.emptype,
+                "school": faculty.school.name if faculty.school else "",
+                "department": faculty.department or "",
+                "is_staff": faculty.is_staff,  # Add HR approval status
+            })
+        return Response(data)
+
+
+class HRFacultyDetailView(APIView):
+    permission_classes = [IsHRUser]
+
+    def get(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+        except Faculty.DoesNotExist:
+            return Response({'error': 'Faculty not found.'}, status=404)
+        return Response(FacultySerializer(faculty, context={'request': request}).data)
+
+    def patch(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+        except Faculty.DoesNotExist:
+            return Response({'error': 'Faculty not found.'}, status=404)
+        # Only allow updating is_staff
+        is_staff = request.data.get('is_staff', None)
+        if is_staff is not None:
+            faculty.is_staff = bool(is_staff)
+            faculty.save()
+        return Response(FacultySerializer(faculty, context={'request': request}).data)
+
+class HRFacultyDocumentsView(APIView):
+    permission_classes = [IsHRUser]
+
+    def get(self, request, id):
+        docs = FacultyDocument.objects.filter(faculty_id=id)
+        serializer = FacultyDocumentSerializer(docs, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class FacultyDirectoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        faculty_qs = Faculty.objects.all().select_related('school')
+        data = []
+        for faculty in faculty_qs:
+            data.append({
+                "id": faculty.id,
+                "full_name": faculty.name,
+                "email": faculty.primary_email,
+                "department": faculty.department or "",
+                "is_staff": faculty.is_staff,
+            })
+        return Response(data)

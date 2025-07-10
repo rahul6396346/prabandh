@@ -6,6 +6,8 @@ import {
   RejectedRequests,
   AllRequests 
 } from "@/pages/hr/approvals";
+import ViewStaffPage from '@/pages/hr/staff/view';
+import StaffDetailsPage from '@/pages/hr/staff/details';
 
 // HR Routes Configuration
 const hrRoutes: RouteObject[] = [
@@ -32,7 +34,15 @@ const hrRoutes: RouteObject[] = [
       {
         path: "approvals/all",
         element: <AllRequests />,
-      }
+      },
+      {
+        path: "staff/view",
+        element: <ViewStaffPage />,
+      },
+      {
+        path: "staff/view/:id",
+        element: <StaffDetailsPage />,
+      },
     ],
   },
 ];

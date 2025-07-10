@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Check, X, Info, RefreshCw, Filter } from "lucide-react";
 import axios from "@/lib/axios";
 import { usePushNotify } from '@/hooks/usePushNotify';
+import VerifiedBadge from '@/components/ui/verified-badge';
+import staffService from '@/services/staffService';
 
 const API_BASE = "/api/facultyservices";
 const FILTERS = [
@@ -28,6 +30,7 @@ const EventApprovals = () => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [selectedEvents, setSelectedEvents] = useState<number[]>([]);
+  const [organizerDetails, setOrganizerDetails] = useState({});
   const { requestPermission, pushNotify } = usePushNotify();
 
   useEffect(() => {
@@ -37,6 +40,28 @@ const EventApprovals = () => {
   useEffect(() => {
     requestPermission();
   }, [requestPermission]);
+
+  useEffect(() => {
+    // Fetch all faculty emails and is_staff from backend
+    const fetchFacultyDetails = async () => {
+      try {
+        const allFaculty = await staffService.getAllFacultyWithEmailAndStatus();
+        // Map by name for quick lookup
+        const detailsMap = {};
+        for (const faculty of allFaculty) {
+          detailsMap[faculty.full_name] = {
+            email: faculty.email,
+            is_staff: faculty.is_staff,
+          };
+        }
+        setOrganizerDetails(detailsMap);
+      } catch (err) {
+        // Handle error (e.g., not HR user)
+        setOrganizerDetails({});
+      }
+    };
+    fetchFacultyDetails();
+  }, []);
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -211,7 +236,18 @@ const EventApprovals = () => {
                       </TableCell>
                       <TableCell>{event.created_at ? new Date(event.created_at).toLocaleDateString() : ''}</TableCell>
                       <TableCell>{event.event_name}</TableCell>
-                      <TableCell>{event.upload_by}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span>{event.upload_by}</span>
+                          {/* Show email and verified tick if available */}
+                          {organizerDetails[event.upload_by]?.email && (
+                            <span className="text-xs text-blue-600 flex items-center gap-1">
+                              {organizerDetails[event.upload_by].email}
+                              {organizerDetails[event.upload_by].is_staff && <VerifiedBadge />}
+                            </span>
+                          )}
+                        </div>
+                      </TableCell>
                       <TableCell>{event.fromdate}</TableCell>
                       <TableCell>{event.todate}</TableCell>
                       <TableCell>
@@ -275,7 +311,15 @@ const EventApprovals = () => {
                 <DialogTitle>{selectedEvent.event_name}</DialogTitle>
               </DialogHeader>
               <div className="space-y-2 py-2">
-                <div><strong>Organizer:</strong> {selectedEvent.upload_by}</div>
+                <div>
+                  <strong>Organizer:</strong> {selectedEvent.upload_by}
+                  {organizerDetails[selectedEvent.upload_by]?.email && (
+                    <span className="text-xs text-blue-600 flex items-center gap-1 ml-2">
+                      {organizerDetails[selectedEvent.upload_by].email}
+                      {organizerDetails[selectedEvent.upload_by].is_staff && <VerifiedBadge />}
+                    </span>
+                  )}
+                </div>
                 <div><strong>Date:</strong> {selectedEvent.fromdate} - {selectedEvent.todate}</div>
                 <div><strong>Location:</strong> {selectedEvent.event_venue}</div>
                 <div><strong>Participants:</strong> {selectedEvent.audience_type}</div>

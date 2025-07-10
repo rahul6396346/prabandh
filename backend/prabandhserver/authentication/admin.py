@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Faculty, School
+from .models import Faculty, School, FacultyDocument
 from facultyservices.models import EventsDetails
 
 class FacultyAdmin(admin.ModelAdmin):
@@ -25,3 +25,4 @@ class FacultyAdmin(admin.ModelAdmin):
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(EventsDetails)
 admin.site.register(School)
+admin.site.register(FacultyDocument)

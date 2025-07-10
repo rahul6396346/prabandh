@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from "@/components/ui/textarea";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
+import VerifiedBadge from '@/components/ui/verified-badge';
 
 interface LeaveApplication {
   id: number;
@@ -16,6 +17,8 @@ interface LeaveApplication {
     name: string;
     department: string;
     registration_no: string;
+    email?: string;
+    is_staff?: boolean;
   };
   leave_type: string;
   from_date: string;

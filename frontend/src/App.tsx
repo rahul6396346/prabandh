@@ -39,6 +39,8 @@ import { VcOfficeDashboard, VcOfficeLayout, VCEventsList, VCEventDetail } from '
 import FacultyRegistration from './pages/hr/faculty-registration';
 import RequireHR from './components/RequireHR';
 import DepartmentsPage from './pages/deputy_registrar/departments/index';
+const ViewStaffPage = lazy(() => import("./pages/hr/staff/view"));
+import StaffDetailsPage from './pages/hr/staff/details';
 
 const queryClient = new QueryClient();
 
@@ -195,6 +197,8 @@ const App = () => (
                   <Route path="dashboard" element={<HRDashboard />} />
                   <Route path="profile" element={<div>HR Profile Page</div>} />
                   <Route path="staff/add" element={<AddStaff />} />
+                  <Route path="staff/view" element={<Suspense fallback={<div>Loading...</div>}><ViewStaffPage /></Suspense>} />
+                  <Route path="staff/view/:id" element={<StaffDetailsPage />} />
                   <Route path="approvals/approved" element={<ApprovedRequests />} />
                   <Route path="approvals/rejected" element={<RejectedRequests />} />
                   <Route path="approvals/all" element={<AllRequests />} />

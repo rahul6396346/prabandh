@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated  # Fix import for IsAuthe
 from .models import LeaveApplication, ClassAdjustment, LeaveBalance
 from .serializers import LeaveApplicationSerializer, ClassAdjustmentSerializer, LeaveBalanceSerializer
 from authentication.models import Faculty
+from notifications.sender import send_push_notifications
 
 # Create a custom permission class for HR users
 class IsHRUser(permissions.BasePermission):
@@ -388,6 +389,12 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
         
         # Set faculty to current user and save
         leave_application = serializer.save(faculty=request.user)
+
+        send_push_notifications(
+            leave_application.faculty,
+            "Leave Application Submitted",
+            "Submitted"
+        )
         
         # Process the class adjustments if any
         if class_adjustments_data:
@@ -504,6 +511,16 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             # Update status to forwarded_to_hr
             leave_application.status = 'forwarded_to_hr'
             leave_application.save()
+
+            try:
+                send_push_notifications(
+                    leave_application.faculty,
+                    "Your Leave Application is Forwarded to HR",
+                    ""
+                )
+            except Exception as e:
+                # Log the error but still return success
+                print(f"Failed to send notification: {e}")
             
             serializer = self.get_serializer(leave_application)
             return Response({
@@ -553,6 +570,12 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             leave_application.save()
             logger.info(f"Successfully approved leave application {pk}")
             
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Approved",
+                "Your leave application has been approved by HR."
+            )
+
             # Return updated application data
             serializer = self.get_serializer(leave_application)
             return Response({
@@ -605,6 +628,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Rejected",
+                "Your leave application has been rejected by HR."
+            )
             logger.info(f"Successfully rejected leave application {pk}")
             
             # Return updated application data
@@ -673,6 +701,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Approved",
+                "Your leave application has been rejected by HOD."
+            )
             logger.info(f"Successfully approved leave application {pk} by HOD")
             
             # Return updated application data
@@ -727,6 +760,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Rejected",
+                "Your leave application has been rejected by HOD."
+            )
             logger.info(f"Successfully rejected leave application {pk} by HOD")
             
             # Return updated application data
@@ -791,6 +829,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Approved",
+                "Your leave application has been approved by DEAN."
+            )
             logger.info(f"Dean approved leave application {pk}, new status: {leave_application.status}")
             
             # Return updated application data
@@ -845,6 +888,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Rejected",
+                "Your leave application has been rejected by Dean."
+            )
             logger.info(f"Successfully rejected leave application {pk} by Dean")
             
             # Return updated application data
@@ -896,6 +944,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Approved",
+                "Your leave application has been approved by Vice-Chancellor."
+            )
             logger.info(f"VC approved leave application {pk}, final approval granted")
             
             # Return updated application data
@@ -950,6 +1003,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Rejected",
+                "Your leave application has been rejected by Vice-Chancellor."
+            )
             logger.info(f"Successfully rejected leave application {pk} by VC")
             
             # Return updated application data
@@ -1001,6 +1059,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Recommended!",
+                "Your leave application has been recommended by HOD to DEAN"
+            )
             logger.info(f"Successfully recommended leave application {pk} to Dean by HOD")
             
             # Return updated application data
@@ -1051,6 +1114,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Recommended!",
+                "Your leave application has been recommended by HOD to VC"
+            )
             logger.info(f"Successfully recommended leave application {pk} to VC by HOD")
             
             # Return updated application data
@@ -1101,6 +1169,11 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
             
             # Save the changes
             leave_application.save()
+            send_push_notifications(
+                leave_application.faculty,
+                "Leave Application Recommended!",
+                "Your leave application has been recommended by DEAN to VC"
+            )
             logger.info(f"Successfully recommended leave application {pk} to VC by Dean")
             
             # Return updated application data

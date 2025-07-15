@@ -125,6 +125,7 @@ INSTALLED_APPS = [
     'facultyservices',  
     'hod',
     'deputy_registrar',
+    'notifications'
 ]
 
 MIDDLEWARE = [

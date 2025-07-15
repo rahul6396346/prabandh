@@ -1,2 +1,10 @@
 backend/prabandhserver/db.sqlite3
 frontend/node_modules/
+frontend/build/
+
+# Django / Python
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+*.log

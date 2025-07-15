@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import LeaveApplication, ClassAdjustment, LeaveBalance
+from .models import LeaveApplication, ClassAdjustment, LeaveBalance, FCMToken
 
 class ClassAdjustmentInline(admin.TabularInline):
     model = ClassAdjustment
@@ -66,3 +66,4 @@ class LeaveBalanceAdmin(admin.ModelAdmin):
 admin.site.register(LeaveApplication, LeaveApplicationAdmin)
 admin.site.register(ClassAdjustment)
 admin.site.register(LeaveBalance, LeaveBalanceAdmin)
+admin.site.register(FCMToken)

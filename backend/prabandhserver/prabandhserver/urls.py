@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/dr/organizations/', include('deputy_registrar.urls')),  # Added deputy registrar URLs
     path('api/facultyservices/', include('facultyservices.urls')),  # Added faculty services URLs
     path('api/hod/', include('hod.urls')),  # Added HOD dashboard URLs
+    path('api/', include('leave_management.urls_notifications')),
 ]
 
 # Add media URL configuration

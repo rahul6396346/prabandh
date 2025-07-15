@@ -228,3 +228,8 @@ def create_faculty_leave_balance(sender, instance, created, **kwargs):
             print(f"Error creating leave balance for {instance}: {e}")
 
 # Note: The update_leave_balance_on_approval signal handler has been moved to views.py
+
+class FCMToken(models.Model):
+    user = models.ForeignKey(Faculty, on_delete=models.CASCADE)
+    token = models.TextField(max_length=512)
+    created_at = models.DateTimeField(auto_now_add=True)

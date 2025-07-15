@@ -41,16 +41,19 @@ import RequireHR from './components/RequireHR';
 import DepartmentsPage from './pages/deputy_registrar/departments/index';
 const ViewStaffPage = lazy(() => import("./pages/hr/staff/view"));
 import StaffDetailsPage from './pages/hr/staff/details';
-
+import NotificationHandler from "./components/NotificationHandler";
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  const userId = JSON.parse(localStorage.getItem("user") || "{}")?.id || null;
+  return(
+    <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {userId && <NotificationHandler userId={userId} />}
           <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             {/* Landing page with Layout (Header & Footer) */}
@@ -281,6 +284,8 @@ const App = () => (
     </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
-);
+  );
+
+};
 
 export default App;

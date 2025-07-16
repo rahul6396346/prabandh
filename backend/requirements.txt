@@ -1,0 +1,7 @@
+django~=4.2
+django-jazzmin
+djangorestframework
+django-cors-headers
+djangorestframework-simplejwt
+python-dotenv
+# Add any other backend Python packages your project uses below this line

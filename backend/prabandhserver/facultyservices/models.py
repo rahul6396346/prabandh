@@ -1,0 +1,71 @@
+from django.db import models
+from authentication.models import School
+
+# Create your models here.
+class EventsDetails(models.Model):
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
+    course = models.CharField(max_length=256)
+    event_name = models.TextField()
+    bodies = models.TextField()
+    event_type = models.CharField(max_length=250)
+    event_sub_type = models.CharField(max_length=250)
+    event_remark = models.TextField(null=True, blank=True)
+    hod_remark = models.TextField(null=True, blank=True)
+    dean_remark = models.TextField(null=True, blank=True)
+    audience_type = models.CharField(max_length=250)
+    fromdate = models.DateField()
+    todate = models.DateField()
+    timeslot = models.CharField(max_length=50, blank=True, null=True)
+    event_description = models.TextField()
+    coordinator1 = models.CharField(max_length=250, blank=True, null=True)
+    coordinator2 = models.CharField(max_length=250, blank=True, null=True)
+    coordinator3 = models.CharField(max_length=250, blank=True, null=True)
+    coordinator4 = models.CharField(max_length=250, blank=True, null=True)
+    coordinator5 = models.CharField(max_length=250, blank=True, null=True)
+    resource_person1 = models.TextField(blank=True, null=True)
+    resource_person2 = models.TextField(blank=True, null=True)
+    resource_person3 = models.TextField(blank=True, null=True)
+    resource_person4 = models.TextField(blank=True, null=True)
+    resource_person5 = models.TextField(blank=True, null=True)
+    resource_person6 = models.TextField(blank=True, null=True)
+    resource_person7 = models.TextField(blank=True, null=True)
+    resource_person8 = models.TextField(blank=True, null=True)
+    proposal_file = models.FileField(upload_to='events/proposals', blank=True, null=True)
+    vcapproval_file = models.FileField(upload_to='events/approvals', blank=True, null=True)
+    vcapproval_status = models.CharField(max_length=50, blank=True, null=True)
+    hodapproval_status = models.CharField(max_length=50, blank=True, null=True)
+    deanapproval_status = models.CharField(max_length=50, blank=True, null=True)
+    creatives = models.FileField(upload_to='events/creatives', blank=True, null=True)
+    attendance_file = models.FileField(upload_to='events/attendance', blank=True, null=True)
+    report_file = models.FileField(upload_to='events/reports', blank=True, null=True)
+    geotagpics_file1 = models.FileField(upload_to='events/geotagpics', blank=True, null=True)
+    geotagpics_file2 = models.FileField(upload_to='events/geotagpics', blank=True, null=True)
+    geotagpics_file3 = models.FileField(upload_to='events/geotagpics', blank=True, null=True)
+    news_social_media = models.FileField(upload_to='events/socialmedia', blank=True, null=True)
+    news_print_media = models.FileField(upload_to='events/printmedia', blank=True, null=True)
+    videoclip = models.URLField(blank=True, null=True)
+    values_and_attributes = models.TextField(null=True, blank=True)
+    upload_by = models.CharField(max_length=256)
+    event_budget = models.CharField(max_length=20, null=True, blank=True)
+    total_amount_spent = models.CharField(max_length=20, null=True, blank=True)
+    event_venue = models.TextField(null=True, blank=True)
+    event_outcomes = models.TextField(null=True, blank=True)
+    report_text = models.TextField(blank=True, null=True)
+    backdrop = models.CharField(max_length=256, blank=True, null=True)
+    standee = models.CharField(max_length=100, blank=True, null=True)
+    creative = models.CharField(max_length=300, blank=True, null=True)
+    certificate = models.CharField(max_length=300, blank=True, null=True)
+    other_requirements = models.TextField(blank=True, null=True)
+    members = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+  
+class EventType(models.Model):
+    type = models.CharField(max_length=250)
+    def __str__(self):
+        return self.type
+
+class EventSubType(models.Model):
+    event_type = models.ForeignKey(EventType, on_delete=models.CASCADE)
+    name = models.CharField(max_length=250)
+    def __str__(self):
+        return f'{self.name} - {self.event_type}' 

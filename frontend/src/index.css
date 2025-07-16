@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 215 100% 41%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 100% 27%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 356 56% 92%; /* #F3E5E5 */
+    --accent-foreground: 0 100% 27%; /* #8B0000 */
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 215 100% 41%;
+
+    --radius: 0.5rem;
+  }
+ 
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-university-background text-university-text font-sans;
+  }
+}
+
+@layer components {
+  .university-container {
+    @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl;
+  }
+  
+  .university-section {
+    @apply py-8 md:py-12;
+  }
+  
+  .university-card {
+    @apply bg-university-surface rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+  
+  .university-button {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+  
+  .university-button-primary {
+    @apply university-button bg-university-primary text-white hover:bg-university-secondary;
+  }
+  
+  .university-button-secondary {
+    @apply university-button bg-university-light text-university-primary hover:bg-gray-100;
+  }
+  
+  .university-input {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-university-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  .university-select {
+    @apply flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-university-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  .university-heading {
+    @apply font-display font-semibold text-university-dark;
+  }
+  
+  .university-table {
+    @apply w-full border-collapse;
+  }
+  
+  .university-table th {
+    @apply bg-university-light text-university-dark px-4 py-3 text-left text-sm font-medium;
+  }
+  
+  .university-table td {
+    @apply px-4 py-3 border-b border-gray-200 text-sm;
+  }
+  
+  .university-table tr:hover {
+    @apply bg-gray-50;
+  }
+  
+  /* Faculty specific components */
+  .faculty-button {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+  
+  .faculty-button-primary {
+    @apply faculty-button bg-faculty-primary text-white hover:bg-faculty-secondary;
+  }
+  
+  .faculty-button-secondary {
+    @apply faculty-button bg-faculty-light text-faculty-primary hover:bg-gray-100;
+  }
+  
+  .faculty-card {
+    @apply bg-faculty-background rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+  
+  .faculty-heading {
+    @apply font-display font-semibold text-faculty-primary;
+  }
+}

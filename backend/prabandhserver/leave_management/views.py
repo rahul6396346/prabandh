@@ -14,6 +14,7 @@ from .models import LeaveApplication, ClassAdjustment, LeaveBalance
 from .serializers import LeaveApplicationSerializer, ClassAdjustmentSerializer, LeaveBalanceSerializer
 from authentication.models import Faculty
 from notifications.sender import send_push_notifications
+import holidays
 
 # Create a custom permission class for HR users
 class IsHRUser(permissions.BasePermission):
@@ -342,6 +343,10 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
         from decimal import Decimal
         no_of_days = Decimal(str(data.get('no_of_days', 0)))  # Convert to Decimal to match database field type
         
+        # Get from_date and to_date from validated data
+        from_date = serializer.validated_data.get('from_date')
+        to_date = serializer.validated_data.get('to_date')
+        
         # Check and deduct leave balance immediately upon application
         try:
             leave_balance, created = LeaveBalance.objects.get_or_create(
@@ -359,23 +364,65 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
                     'half_pay_leave': 5.0,
                     'duty_leave': 15.0,
                     'hpl': 5.0,
-                    'vacation_leave': 15.0
+                    'vacation_leave': 15.0,
+                    'cl_slot1_total': 7.0,
+                    'cl_slot1_used': 0.0,
+                    'cl_slot1_lapsed': False,
+                    'cl_slot2_total': 8.0,
+                    'cl_slot2_used': 0.0,
+                    'cl_slot2_lapsed': False
                 }
             )
-            
-            # Check if faculty has sufficient balance
-            remaining_balance = leave_balance.get_remaining_balance(leave_type)
-            if remaining_balance < no_of_days:
-                return Response(
-                    {
-                        'error': f'Insufficient leave balance. Available: {remaining_balance} days, Requested: {no_of_days} days'
-                    },
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            
-            # Deduct leave balance immediately
-            leave_balance.deduct_leave(leave_type, no_of_days)
-            
+
+            # Enforce CL cannot be combined with other leave types
+            if leave_type == 'casual':
+                # Check if there are overlapping leave applications of other types
+                overlapping = LeaveApplication.objects.filter(
+                    faculty=request.user,
+                    leave_type__ne='casual',
+                    from_date__lte=to_date,
+                    to_date__gte=from_date,
+                    status__in=['pending', 'approved']
+                ).exists()
+                if overlapping:
+                    return Response({'error': 'Casual Leave cannot be combined with other leave types.'}, status=status.HTTP_400_BAD_REQUEST)
+
+                # Exclude holidays/Sundays from CL count
+                from datetime import timedelta
+                from django.utils import timezone
+                import holidays
+                india_holidays = holidays.India()
+                cl_days = 0
+                current = from_date
+                while current <= to_date:
+                    if current.weekday() < 5 and current not in india_holidays:
+                        cl_days += 1
+                    current += timedelta(days=1)
+                if cl_days != no_of_days:
+                    no_of_days = cl_days
+
+                # Enforce slotting and lapse logic
+                slot = leave_balance.get_cl_slot(from_date)
+                if slot == 'slot1' and leave_balance.cl_slot1_lapsed:
+                    return Response({'error': 'Slot 1 CL has lapsed.'}, status=status.HTTP_400_BAD_REQUEST)
+                if slot == 'slot2' and leave_balance.cl_slot2_lapsed:
+                    return Response({'error': 'Slot 2 CL has lapsed.'}, status=status.HTTP_400_BAD_REQUEST)
+                remaining_balance = leave_balance.get_remaining_cl_in_slot(slot)
+                if remaining_balance < no_of_days:
+                    return Response({'error': f'Insufficient CL in {slot}. Available: {remaining_balance} days, Requested: {no_of_days} days'}, status=status.HTTP_400_BAD_REQUEST)
+                leave_balance.deduct_cl_in_slot(slot, no_of_days)
+            else:
+                # For other leave types, use default logic
+                remaining_balance = leave_balance.get_remaining_balance(leave_type)
+                if remaining_balance < no_of_days:
+                    return Response(
+                        {
+                            'error': f'Insufficient leave balance. Available: {remaining_balance} days, Requested: {no_of_days} days'
+                        },
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                leave_balance.deduct_leave(leave_type, no_of_days)
+
             logger = logging.getLogger('leave_management')
             logger.info(f"Immediately deducted {no_of_days} days of {leave_type} leave from faculty {request.user.id}")
             
@@ -424,14 +471,19 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
                     'earned_leave': 15.0,
                     'semester_leave': 5.0,
                     'maternity_leave': 15.0,
-                    'paternity_leave': 10.0,  # Updated from 0.0 to 10.0
+                    'paternity_leave': 0.0,
                     'extraordinary_leave': 15.0,
                     'academic_leave': 5.0,
                     'half_pay_leave': 5.0,
                     'duty_leave': 15.0,
-                    # Legacy fields
                     'hpl': 5.0,
-                    'vacation_leave': 15.0
+                    'vacation_leave': 15.0,
+                    'cl_slot1_total': 7.0,
+                    'cl_slot1_used': 0.0,
+                    'cl_slot1_lapsed': False,
+                    'cl_slot2_total': 8.0,
+                    'cl_slot2_used': 0.0,
+                    'cl_slot2_lapsed': False
                 }
             )
             
@@ -440,7 +492,19 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
                 'casual': {
                     'total': leave_balance.casual_leave,
                     'used': leave_balance.casual_leave_used,
-                    'remaining': leave_balance.casual_leave - leave_balance.casual_leave_used
+                    'remaining': leave_balance.casual_leave - leave_balance.casual_leave_used,
+                    'slot1': {
+                        'total': leave_balance.cl_slot1_total,
+                        'used': leave_balance.cl_slot1_used,
+                        'remaining': leave_balance.cl_slot1_total - leave_balance.cl_slot1_used,
+                        'lapsed': leave_balance.cl_slot1_lapsed
+                    },
+                    'slot2': {
+                        'total': leave_balance.cl_slot2_total,
+                        'used': leave_balance.cl_slot2_used,
+                        'remaining': leave_balance.cl_slot2_total - leave_balance.cl_slot2_used,
+                        'lapsed': leave_balance.cl_slot2_lapsed
+                    }
                 },
                 'medical': {
                     'total': leave_balance.medical_leave,
@@ -1281,7 +1345,7 @@ class LeaveApplicationViewSet(viewsets.ModelViewSet):
                 }
             }, status=status.HTTP_200_OK)
         else:
-            logger.warning(f"User {request.user.id} failed HR permissions check, emptype: {getattr(request.user, 'emptype', 'unknown')}")
+            logger.warning(f"User {request.user.id} failed HR permissions check, emptype: {getattr(request.user, "emptype", "unknown")}")
             return Response({
                 'status': 'error',
                 'message': f'You do not have HR permissions. Your emptype is: {getattr(request.user, "emptype", "unknown")}'
@@ -1320,9 +1384,14 @@ class LeaveBalanceViewSet(viewsets.ModelViewSet):
                     'academic_leave': 5.0,
                     'half_pay_leave': 5.0,
                     'duty_leave': 15.0,
-                    # Legacy fields for backward compatibility
                     'hpl': 5.0,
-                    'vacation_leave': 15.0
+                    'vacation_leave': 15.0,
+                    'cl_slot1_total': 7.0,
+                    'cl_slot1_used': 0.0,
+                    'cl_slot1_lapsed': False,
+                    'cl_slot2_total': 8.0,
+                    'cl_slot2_used': 0.0,
+                    'cl_slot2_lapsed': False
                 }
             )
             
@@ -1382,7 +1451,13 @@ def handle_leave_balance_on_status_change(sender, instance, created, **kwargs):
                 'half_pay_leave': 5.0,
                 'duty_leave': 15.0,
                 'hpl': 5.0,
-                'vacation_leave': 15.0
+                'vacation_leave': 15.0,
+                'cl_slot1_total': 7.0,
+                'cl_slot1_used': 0.0,
+                'cl_slot1_lapsed': False,
+                'cl_slot2_total': 8.0,
+                'cl_slot2_used': 0.0,
+                'cl_slot2_lapsed': False
             }
         )
         
@@ -1462,7 +1537,13 @@ def _restore_leave_balance(self, leave_application):
                     'half_pay_leave': 5.0,
                     'duty_leave': 15.0,
                     'hpl': 5.0,
-                    'vacation_leave': 15.0
+                    'vacation_leave': 15.0,
+                    'cl_slot1_total': 7.0,
+                    'cl_slot1_used': 0.0,
+                    'cl_slot1_lapsed': False,
+                    'cl_slot2_total': 8.0,
+                    'cl_slot2_used': 0.0,
+                    'cl_slot2_lapsed': False
                 }
             )
             

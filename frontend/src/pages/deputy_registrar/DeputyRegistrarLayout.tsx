@@ -5,7 +5,7 @@ import { User, Lock, LogOut } from "lucide-react";
 import authService from "@/services/authService";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
-import DeputyRegistrarHeader from "./DeputyRegistrarHeader";
+import DeputyRegistrarHeader from "./deputyRegistrarHeader";
 
 const DeputyRegistrarLayout = ({ children }: { children?: React.ReactNode }) => {
   const navigate = useNavigate();

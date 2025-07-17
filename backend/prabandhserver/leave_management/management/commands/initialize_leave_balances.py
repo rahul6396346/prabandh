@@ -45,7 +45,13 @@ class Command(BaseCommand):
                     'half_pay_leave': 5.0,
                     'duty_leave': 0.0,
                     'hpl': 5.0,
-                    'vacation_leave': 15.0
+                    'vacation_leave': 15.0,
+                    'cl_slot1_total': 7.0,
+                    'cl_slot1_used': 0.0,
+                    'cl_slot1_lapsed': False,
+                    'cl_slot2_total': 8.0,
+                    'cl_slot2_used': 0.0,
+                    'cl_slot2_lapsed': False
                 }
             )
             

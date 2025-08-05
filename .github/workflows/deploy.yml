@@ -19,4 +19,4 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_HOST }} "bash /home/ubuntu/your-project-directory/deploy.sh"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.EC2_HOST }} "bash /home/ubuntu/django-react-app/deploy.sh"
